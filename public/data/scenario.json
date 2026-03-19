@@ -1,0 +1,498 @@
+{
+  "_comment": "=== СЦЕНАРИЙ НОВЕЛЛЫ ===",
+  "_doc": "Каждая комната (room) содержит фразы (phrases), кликабельные зоны (hotspots) и загадки (puzzles). Фразы выводятся последовательно. Каждая фраза может запускать события до/после/во время показа.",
+
+  "settings": {
+    "title": "Dream Novel",
+    "startRoom": "room_corridor",
+    "textSpeed": 50,
+    "defaultMusic": "ambient_dream"
+  },
+
+  "characters": {
+    "lina": {
+      "name": "Лина",
+      "color": "#b4aad2",
+      "sprites": {
+        "neutral": "/assets/characters/lina_neutral.png",
+        "scared": "/assets/characters/lina_scared.png",
+        "surprised": "/assets/characters/lina_surprised.png"
+      }
+    },
+    "glitch": {
+      "name": "???",
+      "color": "#e74c5c",
+      "sprites": {
+        "neutral": "/assets/characters/glitch_neutral.png",
+        "glitched": "/assets/characters/glitch_glitched.png"
+      }
+    },
+    "narrator": {
+      "name": "",
+      "color": "#888888",
+      "sprites": {}
+    }
+  },
+
+  "rooms": {
+    "room_corridor": {
+      "id": "room_corridor",
+      "background": "/assets/backgrounds/corridor.png",
+      "music": "ambient_dream",
+      "ambientEffects": ["vignette", "flicker"],
+      "idleHint": "Осмотрите стены коридора — где-то должен быть выключатель",
+
+      "phrases": [
+        {
+          "id": "corr_01",
+          "character": "narrator",
+          "text": "Длинный коридор уходит в темноту. Стены мерцают, словно нарисованные на воде.",
+          "before": [
+            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
+          ]
+        },
+        {
+          "id": "corr_02",
+          "character": "lina",
+          "sprite": "scared",
+          "text": "Где я?.. Это не похоже ни на один из моих снов.",
+          "before": [
+            { "type": "showCharacter", "character": "lina", "position": "center", "sprite": "scared" }
+          ],
+          "after": [
+            { "type": "sound", "name": "whisper" }
+          ]
+        },
+        {
+          "id": "corr_03",
+          "character": "narrator",
+          "text": "Что-то мерцает в дальнем конце коридора. Нужно найти способ осветить путь.",
+          "after": [
+            { "type": "enableHotspots" }
+          ]
+        }
+      ],
+
+      "hotspots": [
+        {
+          "id": "light_switch",
+          "x": 75,
+          "y": 45,
+          "width": 8,
+          "height": 12,
+          "cursor": "pointer",
+          "tooltip": "Что-то на стене...",
+          "hint": "Попробуйте нажать на область справа — похоже на выключатель",
+          "onInteract": [
+            { "type": "sound", "name": "switch_click" },
+            { "type": "effect", "name": "fadeToWhite", "duration": 500 },
+            { "type": "changeBackground", "src": "/assets/backgrounds/corridor_lit.png" },
+            { "type": "effect", "name": "fadeFromWhite", "duration": 500 },
+            { "type": "addItem", "item": "old_key" },
+            { "type": "continueDialogue", "phraseId": "corr_04" }
+          ]
+        }
+      ],
+
+      "onHotspotsComplete": [
+        {
+          "id": "corr_04",
+          "character": "lina",
+          "sprite": "surprised",
+          "text": "Выключатель... Свет! И... на полу лежит старый ключ.",
+          "before": [
+            { "type": "changeSprite", "character": "lina", "sprite": "surprised" }
+          ]
+        },
+        {
+          "id": "corr_05",
+          "character": "narrator",
+          "text": "Ключ покрыт странными символами. Может пригодиться.",
+          "after": [
+            { "type": "effect", "name": "glitchLight", "duration": 800, "target": "screen" },
+            { "type": "sound", "name": "glitch_noise" }
+          ]
+        },
+        {
+          "id": "corr_06",
+          "character": "glitch",
+          "sprite": "glitched",
+          "text": "Т̷ы̷ ̷н̷е̷ ̷д̷о̷л̷ж̷н̷а̷ ̷б̷ы̷л̷а̷ ̷э̷т̷о̷ ̷н̷а̷й̷т̷и̷.̷",
+          "before": [
+            { "type": "effect", "name": "glitchHeavy", "duration": 1500, "target": "screen" },
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "glitched" },
+            { "type": "sound", "name": "glitch_appear" }
+          ],
+          "after": [
+            { "type": "hideCharacter", "character": "glitch" },
+            { "type": "goToRoom", "room": "room_library", "transition": "transitionGlitch", "transitionDuration": 1200 }
+          ]
+        }
+      ]
+    },
+
+    "room_library": {
+      "id": "room_library",
+      "background": "/assets/backgrounds/library.png",
+      "music": "ambient_library",
+      "ambientEffects": ["vignette"],
+      "idleHint": "Изучите книги на полках — одна из них содержит зашифрованное послание",
+
+      "phrases": [
+        {
+          "id": "lib_01",
+          "character": "narrator",
+          "text": "Библиотека. Книги на полках, но названия на обложках постоянно меняются.",
+          "before": [
+            { "type": "effect", "name": "fadeFromBlack", "duration": 1500 }
+          ]
+        },
+        {
+          "id": "lib_02",
+          "character": "lina",
+          "sprite": "neutral",
+          "text": "Здесь должна быть подсказка... Нужно присмотреться к этим книгам.",
+          "before": [
+            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
+          ],
+          "after": [
+            { "type": "startPuzzle", "puzzleId": "cipher_puzzle" }
+          ]
+        }
+      ],
+
+      "puzzles": {
+        "cipher_puzzle": {
+          "type": "cipher",
+          "config": {
+            "title": "Шифр на страницах",
+            "description": "Расшифруйте послание, сдвигая буквы на 3 позиции назад (шифр Цезаря).",
+            "encoded": "СФКЛФЕ",
+            "answer": "ПРОБУД",
+            "shift": 3,
+            "hint": "Каждая буква сдвинута на 3 позиции вперёд в алфавите."
+          },
+          "onSolve": [
+            { "type": "sound", "name": "puzzle_solved" },
+            { "type": "effect", "name": "pulseGlow", "duration": 1000, "target": "puzzle" },
+            { "type": "continueDialogue", "phraseId": "lib_03" }
+          ]
+        }
+      },
+
+      "onPuzzleSolved": [
+        {
+          "id": "lib_03",
+          "character": "lina",
+          "sprite": "surprised",
+          "text": "«Пробуд...» — пробуждение? Это слово — ключ к чему-то!",
+          "after": [
+            { "type": "setFlag", "flag": "cipher_solved", "value": true }
+          ]
+        },
+        {
+          "id": "lib_04",
+          "character": "narrator",
+          "text": "Одна из книг начинает светиться. За ней — проход.",
+          "after": [
+            { "type": "enableHotspots" }
+          ]
+        }
+      ],
+
+      "hotspots": [
+        {
+          "id": "secret_passage",
+          "x": 50,
+          "y": 40,
+          "width": 15,
+          "height": 30,
+          "cursor": "pointer",
+          "tooltip": "Светящаяся книга",
+          "requiresFlag": "cipher_solved",
+          "onInteract": [
+            { "type": "sound", "name": "stone_move" },
+            { "type": "effect", "name": "shake", "duration": 600 },
+            { "type": "goToRoom", "room": "room_mirror", "transition": "transitionDoor", "transitionDuration": 1400 }
+          ]
+        }
+      ]
+    },
+
+    "room_mirror": {
+      "id": "room_mirror",
+      "background": "/assets/backgrounds/mirror_room.png",
+      "music": "ambient_tension",
+      "ambientEffects": ["vignette", "chromatic"],
+      "idleHint": "Осмотрите осколки зеркала — в них отражаются части лица",
+
+      "phrases": [
+        {
+          "id": "mir_01",
+          "character": "narrator",
+          "text": "Комната с огромным зеркалом. В отражении — не ты.",
+          "before": [
+            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
+          ]
+        },
+        {
+          "id": "mir_02",
+          "character": "lina",
+          "sprite": "scared",
+          "text": "Это... это не моё отражение. Кто это?",
+          "before": [
+            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "scared" }
+          ]
+        },
+        {
+          "id": "mir_03",
+          "character": "glitch",
+          "sprite": "neutral",
+          "text": "Это я. Ошибка в твоём сне. Я застрял здесь.",
+          "before": [
+            { "type": "effect", "name": "glitchMedium", "duration": 1000, "target": "screen" },
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" }
+          ]
+        },
+        {
+          "id": "mir_04",
+          "character": "narrator",
+          "text": "Зеркало покрыто трещинами. В них — фрагменты изображения.",
+          "after": [
+            { "type": "startPuzzle", "puzzleId": "sequence_puzzle" }
+          ]
+        }
+      ],
+
+      "puzzles": {
+        "sequence_puzzle": {
+          "type": "sequence",
+          "config": {
+            "title": "Осколки зеркала",
+            "description": "Нажмите на осколки в правильном порядке, чтобы собрать отражение.",
+            "items": [
+              { "id": "shard_1", "label": "Глаз", "order": 3 },
+              { "id": "shard_2", "label": "Рот", "order": 4 },
+              { "id": "shard_3", "label": "Лоб", "order": 1 },
+              { "id": "shard_4", "label": "Нос", "order": 2 }
+            ],
+            "hint": "Лицо собирается сверху вниз."
+          },
+          "onSolve": [
+            { "type": "sound", "name": "glass_shatter" },
+            { "type": "effect", "name": "shake", "duration": 1000 },
+            { "type": "continueDialogue", "phraseId": "mir_05" }
+          ]
+        }
+      },
+
+      "onPuzzleSolved": [
+        {
+          "id": "mir_05",
+          "character": "glitch",
+          "sprite": "glitched",
+          "text": "Ты... починила меня? Нет. Ты починила зеркало.",
+          "before": [
+            { "type": "effect", "name": "glitchHeavy", "duration": 2000, "target": "screen" }
+          ],
+          "after": [
+            { "type": "goToRoom", "room": "room_clock", "transition": "transitionSpiral", "transitionDuration": 1500 }
+          ]
+        }
+      ]
+    },
+
+    "room_clock": {
+      "id": "room_clock",
+      "background": "/assets/backgrounds/clock_room.png",
+      "music": "ambient_clock",
+      "ambientEffects": ["vignette", "flicker"],
+      "idleHint": "Одни часы стоят — посмотрите, какое время они показывают",
+
+      "phrases": [
+        {
+          "id": "clk_01",
+          "character": "narrator",
+          "text": "Часовая комната. Десятки часов на стенах — все показывают разное время.",
+          "before": [
+            { "type": "effect", "name": "fadeFromBlack", "duration": 1500 }
+          ]
+        },
+        {
+          "id": "clk_02",
+          "character": "lina",
+          "sprite": "neutral",
+          "text": "Если установить все часы на одно время, может, что-то произойдёт?",
+          "before": [
+            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
+          ],
+          "after": [
+            { "type": "startPuzzle", "puzzleId": "code_puzzle" }
+          ]
+        }
+      ],
+
+      "puzzles": {
+        "code_puzzle": {
+          "type": "code",
+          "config": {
+            "title": "Время пробуждения",
+            "description": "Введите правильное время. Подсказка спрятана в комнате.",
+            "answer": "0347",
+            "length": 4,
+            "hint": "На одних часах стрелки не двигаются — они показывают 03:47."
+          },
+          "onSolve": [
+            { "type": "sound", "name": "clock_chime" },
+            { "type": "effect", "name": "shake", "duration": 800 },
+            { "type": "continueDialogue", "phraseId": "clk_03" }
+          ]
+        }
+      },
+
+      "onPuzzleSolved": [
+        {
+          "id": "clk_03",
+          "character": "narrator",
+          "text": "Все часы остановились. Тишина оглушает.",
+          "after": [
+            { "type": "sound", "name": "silence_ring" }
+          ]
+        },
+        {
+          "id": "clk_04",
+          "character": "glitch",
+          "sprite": "neutral",
+          "text": "Время — это единственное, что здесь настоящее. Спасибо.",
+          "before": [
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" }
+          ],
+          "after": [
+            { "type": "goToRoom", "room": "room_final", "transition": "transitionDoor", "transitionDuration": 1600 }
+          ]
+        }
+      ]
+    },
+
+    "room_final": {
+      "id": "room_final",
+      "background": "/assets/backgrounds/final_door.png",
+      "music": "ambient_final",
+      "ambientEffects": ["vignette", "pulse"],
+
+      "phrases": [
+        {
+          "id": "fin_01",
+          "character": "narrator",
+          "text": "Перед тобой — две двери. Одна ведёт к пробуждению, другая — глубже в сон.",
+          "before": [
+            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
+          ]
+        },
+        {
+          "id": "fin_02",
+          "character": "glitch",
+          "sprite": "neutral",
+          "text": "Одна из дверей — для тебя. Другая — для меня. Выбирай.",
+          "before": [
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" },
+            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
+          ],
+          "after": [
+            { "type": "showFinalChoice" }
+          ]
+        }
+      ],
+
+      "finalChoice": {
+        "_comment": "Финальный выбор без выбора — кнопка 'Остаться' убегает от курсора",
+        "buttons": [
+          {
+            "text": "Проснуться",
+            "type": "normal",
+            "onSelect": [
+              { "type": "effect", "name": "fadeToWhite", "duration": 3000 },
+              { "type": "goToRoom", "room": "room_ending" }
+            ]
+          },
+          {
+            "text": "Остаться",
+            "type": "runaway",
+            "onSelect": []
+          }
+        ]
+      }
+    },
+
+    "room_ending": {
+      "id": "room_ending",
+      "background": "/assets/backgrounds/white.png",
+      "music": "none",
+      "ambientEffects": [],
+
+      "phrases": [
+        {
+          "id": "end_01",
+          "character": "narrator",
+          "text": "Свет. Тепло. Ты просыпаешься.",
+          "before": [
+            { "type": "effect", "name": "fadeFromWhite", "duration": 3000 }
+          ]
+        },
+        {
+          "id": "end_02",
+          "character": "lina",
+          "sprite": "neutral",
+          "text": "Это был... просто сон?",
+          "before": [
+            { "type": "showCharacter", "character": "lina", "position": "center", "sprite": "neutral" }
+          ]
+        },
+        {
+          "id": "end_03",
+          "character": "narrator",
+          "text": "На прикроватной тумбочке лежит старый ключ с символами...",
+          "after": [
+            { "type": "effect", "name": "glitchLight", "duration": 500, "target": "screen" },
+            { "type": "effect", "name": "fadeToBlack", "duration": 3000 },
+            { "type": "showCredits" }
+          ]
+        }
+      ]
+    }
+  },
+
+  "items": {
+    "old_key": {
+      "id": "old_key",
+      "name": "Старый ключ",
+      "description": "Покрыт странными символами, которые меняются при каждом взгляде.",
+      "icon": "/assets/items/old_key.png"
+    }
+  },
+
+  "audio": {
+    "music": {
+      "ambient_dream":   "/assets/music/ambient_dream.mp3",
+      "ambient_library": "/assets/music/ambient_library.mp3",
+      "ambient_tension": "/assets/music/ambient_tension.mp3",
+      "ambient_clock":   "/assets/music/ambient_clock.mp3",
+      "ambient_final":   "/assets/music/ambient_final.mp3"
+    },
+    "sounds": {
+      "switch_click":   "/assets/sounds/switch_click.mp3",
+      "whisper":        "/assets/sounds/whisper.mp3",
+      "glitch_noise":   "/assets/sounds/glitch_noise.mp3",
+      "glitch_appear":  "/assets/sounds/glitch_appear.mp3",
+      "puzzle_solved":  "/assets/sounds/puzzle_solved.mp3",
+      "stone_move":     "/assets/sounds/stone_move.mp3",
+      "glass_shatter":  "/assets/sounds/glass_shatter.mp3",
+      "clock_chime":    "/assets/sounds/clock_chime.mp3",
+      "silence_ring":   "/assets/sounds/silence_ring.mp3",
+      "btn_hover":      "/assets/sounds/btn_hover.mp3",
+      "btn_click":      "/assets/sounds/btn_click.mp3",
+      "text_type":      "/assets/sounds/text_type.mp3",
+      "glitch_type":    "/assets/sounds/glitch_type.mp3"
+    }
+  }
+}

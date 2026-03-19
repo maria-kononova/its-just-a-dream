@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dream Novel</title>
+
+  <!-- Шрифты: Cinzel (заголовки/имена), Inter (диалоги), Raleway (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500&family=Raleway:wght@200;300;400;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <!-- Экран предзагрузки -->
+  <div id="loading-screen">
+    <div class="loading-text">Загрузка</div>
+    <div class="loading-bar">
+      <div class="loading-bar-fill" id="loading-fill"></div>
+    </div>
+  </div>
+
+  <!-- Корневой контейнер новеллы — все экраны рендерятся внутри -->
+  <div id="novel-root">
+
+    <!-- ===== СТАРТОВЫЙ ЭКРАН ===== -->
+    <div id="screen-title" class="screen active">
+      <!-- Фоновые частицы для атмосферы -->
+      <div class="title-particles" id="title-particles"></div>
+      <!-- Виньетка стартового экрана -->
+      <div class="title-vignette"></div>
+
+      <div class="title-bg">
+        <!-- Сюда подставляется кастомная картинка стартового экрана -->
+        <!-- <img src="/assets/backgrounds/title.png" alt="" class="title-image" /> -->
+        <div class="title-placeholder">
+          <div class="title-name">DREAM NOVEL</div>
+          <div class="title-subtitle">Сон, из которого нет выхода</div>
+        </div>
+      </div>
+
+      <div class="title-buttons">
+        <button class="btn-novel btn-start" data-action="start">Начать</button>
+        <button class="btn-novel btn-about" data-action="about">Об игре</button>
+        <button class="btn-novel btn-settings" data-action="settings">Настройки</button>
+      </div>
+
+      <!-- Модальное окно «Об игре» -->
+      <div id="modal-about" class="modal hidden">
+        <div class="modal-content">
+          <h2>Об игре</h2>
+          <p>
+            Это визуальная новелла о двух персонажах, заблудившихся в чужом сне.
+            Один из них — хозяин сновидения, другой — ошибка, которая не должна
+            была здесь оказаться. Разгадайте загадки, чтобы найти выход.
+          </p>
+          <p class="about-credits">
+            <!-- Сюда можно вписать свой текст -->
+            Разработка и арт: [Ваше имя]
+          </p>
+          <button class="btn-novel btn-close-modal">Закрыть</button>
+        </div>
+      </div>
+
+      <!-- Модальное окно «Настройки» -->
+      <div id="modal-settings" class="modal hidden">
+        <div class="modal-content">
+          <h2>Настройки</h2>
+          <div class="setting-row">
+            <label>Музыка</label>
+            <input type="range" id="volume-music" min="0" max="100" value="70" />
+            <span class="volume-value">70%</span>
+          </div>
+          <div class="setting-row">
+            <label>Звуки</label>
+            <input type="range" id="volume-sfx" min="0" max="100" value="80" />
+            <span class="volume-value">80%</span>
+          </div>
+          <div class="setting-row">
+            <label>Скорость текста</label>
+            <input type="range" id="text-speed" min="1" max="10" value="5" />
+            <span class="volume-value">5</span>
+          </div>
+          <button class="btn-novel btn-close-modal">Закрыть</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ИГРОВОЙ ЭКРАН ===== -->
+    <div id="screen-game" class="screen">
+      <!-- Слой фона (сцена) -->
+      <div id="scene-layer">
+        <div id="background-container">
+          <!-- Фоновое изображение текущей комнаты -->
+          <img id="scene-bg" src="" alt="" />
+        </div>
+
+        <!-- Слой для наложения анимированных эффектов поверх фона -->
+        <div id="effects-overlay"></div>
+
+        <!-- Кликабельные зоны (hotspots) — генерируются динамически -->
+        <div id="hotspots-layer"></div>
+
+        <!-- Персонажи на сцене -->
+        <div id="characters-layer"></div>
+
+        <!-- Контейнер для загадок (появляется поверх сцены) -->
+        <div id="puzzle-container" class="hidden"></div>
+
+        <!-- Контейнер для видео-катсцен -->
+        <div id="video-container" class="hidden">
+          <video id="cutscene-video" playsinline></video>
+        </div>
+      </div>
+
+      <!-- ===== UI-СЛОЙ ===== -->
+      <div id="ui-layer">
+        <!-- Индикатор прогресса (тонкая полоска сверху) -->
+        <div id="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+
+        <!-- Toast-уведомления (правый верхний угол) -->
+        <div id="toast-container"></div>
+
+        <!-- Диалоговый блок (плавающий, снизу) -->
+        <div id="dialogue-box" class="hidden">
+          <div class="dialogue-portrait" id="dialogue-portrait"></div>
+          <div class="dialogue-content">
+            <div class="dialogue-speaker"></div>
+            <div class="dialogue-text"></div>
+          </div>
+          <div class="dialogue-continue-hint">&#9660;</div>
+        </div>
+
+        <!-- Выбор вариантов ответа -->
+        <div id="choices-container" class="hidden"></div>
+
+        <!-- Кнопки управления (справа снизу) -->
+        <div id="ui-buttons">
+          <button class="btn-ui" data-action="history" title="История фраз (H)">
+            <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 6h16M4 12h16M4 18h10"/>
+            </svg>
+          </button>
+          <button class="btn-ui" data-action="inventory" title="Инвентарь (I)">
+            <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="M8 5V3h8v2"/>
+              <circle cx="12" cy="13" r="2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Панель истории фраз -->
+      <div id="history-panel" class="side-panel hidden">
+        <div class="panel-header">
+          <h3>История</h3>
+          <button class="btn-close-panel">&times;</button>
+        </div>
+        <div class="panel-body" id="history-list"></div>
+      </div>
+
+      <!-- Панель инвентаря -->
+      <div id="inventory-panel" class="side-panel hidden">
+        <div class="panel-header">
+          <h3>Инвентарь</h3>
+          <button class="btn-close-panel">&times;</button>
+        </div>
+        <div class="panel-body" id="inventory-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Шлейф курсора -->
+  <div id="cursor-trail"></div>
+
+  <!-- Подсказка по таймеру -->
+  <div id="idle-hint" class="hidden">
+    <span class="idle-hint-icon">?</span>
+    <span class="idle-hint-text"></span>
+  </div>
+
+  <!-- Точка входа -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
