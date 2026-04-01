@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dream Novel</title>
+  <title>It's just a dream</title>
 
   <!-- Шрифты: Cinzel (заголовки/имена), Inter (диалоги), Raleway (UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,17 +29,10 @@
       <!-- Фоновые частицы для атмосферы -->
       <div class="title-particles" id="title-particles"></div>
       <!-- Виньетка стартового экрана -->
-      <div class="title-vignette"></div>
-
-      <div class="title-bg">
-        <!-- Сюда подставляется кастомная картинка стартового экрана -->
-        <!-- <img src="/assets/backgrounds/title.png" alt="" class="title-image" /> -->
-        <div class="title-placeholder">
-          <div class="title-name">DREAM NOVEL</div>
-          <div class="title-subtitle">Сон, из которого нет выхода</div>
-        </div>
+      <div class="title-vignette">
+        <img src="/assets/backgrounds/menu.png" alt="фон" class="title-image" /> 
       </div>
-
+              
       <div class="title-buttons">
         <button class="btn-novel btn-start" data-action="start">Начать</button>
         <button class="btn-novel btn-about" data-action="about">Об игре</button>
@@ -49,15 +42,13 @@
       <!-- Модальное окно «Об игре» -->
       <div id="modal-about" class="modal hidden">
         <div class="modal-content">
-          <h2>Об игре</h2>
+          <h2>Что это такое</h2>
           <p>
-            Это визуальная новелла о двух персонажах, заблудившихся в чужом сне.
-            Один из них — хозяин сновидения, другой — ошибка, которая не должна
-            была здесь оказаться. Разгадайте загадки, чтобы найти выход.
+            Я не знаю чем это можно назвать. Это было сделано для того, чтобы снова хоть немного погрузиться в ту самую атмосферу и провести время вместе в столь важный день. Не воспринимай серьёзно, у меня лапки.
           </p>
           <p class="about-credits">
             <!-- Сюда можно вписать свой текст -->
-            Разработка и арт: [Ваше имя]
+            Твоя Тайо
           </p>
           <button class="btn-novel btn-close-modal">Закрыть</button>
         </div>
@@ -99,11 +90,12 @@
         <!-- Слой для наложения анимированных эффектов поверх фона -->
         <div id="effects-overlay"></div>
 
-        <!-- Кликабельные зоны (hotspots) — генерируются динамически -->
-        <div id="hotspots-layer"></div>
 
         <!-- Персонажи на сцене -->
         <div id="characters-layer"></div>
+
+        <!-- Кликабельные зоны (hotspots) — генерируются динамически -->
+        <div id="hotspots-layer"></div>
 
         <!-- Контейнер для загадок (появляется поверх сцены) -->
         <div id="puzzle-container" class="hidden"></div>
@@ -111,6 +103,7 @@
         <!-- Контейнер для видео-катсцен -->
         <div id="video-container" class="hidden">
           <video id="cutscene-video" playsinline></video>
+           <img src="/assets/backgrounds/anti_watermark.png" alt="" class="video-watermark">
         </div>
       </div>
 
@@ -157,7 +150,7 @@
       <!-- Панель истории фраз -->
       <div id="history-panel" class="side-panel hidden">
         <div class="panel-header">
-          <h3>История</h3>
+          <h2>История</h2>
           <button class="btn-close-panel">&times;</button>
         </div>
         <div class="panel-body" id="history-list"></div>
@@ -166,7 +159,7 @@
       <!-- Панель инвентаря -->
       <div id="inventory-panel" class="side-panel hidden">
         <div class="panel-header">
-          <h3>Инвентарь</h3>
+          <h2>Инвентарь</h2>
           <button class="btn-close-panel">&times;</button>
         </div>
         <div class="panel-body" id="inventory-list"></div>

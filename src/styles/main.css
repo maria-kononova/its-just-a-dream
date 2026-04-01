@@ -9,17 +9,17 @@
   /* Основные цвета */
   --bg-deep:      #050508;    /* Самый тёмный фон */
   --bg-dark:      #0a0a10;    /* Тёмный фон */
-  --bg-panel:     rgba(12, 12, 18, 0.88); /* Полупрозрачные панели */
-  --bg-modal:     rgba(8, 8, 14, 0.95);
+  --bg-panel:     rgba(13, 8, 11, 0.7); /* Полупрозрачные панели */
+  --bg-modal:     rgba(10, 5, 8, 0.95);
 
   /* Акценты */
-  --accent:       #b4aad2;    /* Лавандовый акцент */
-  --accent-dim:   rgba(180, 170, 210, 0.3);
+  --accent:       #bab9b9;    /* Лавандовый акцент */
+  --accent-dim:   rgba(145, 101, 119, 0.4);
   --accent-glow:  rgba(180, 170, 210, 0.12);
 
   /* Глитч-акцент (для персонажа-ошибки) */
-  --glitch-red:   #e74c5c;
-  --glitch-blue:  #3a7bd5;
+  --glitch-red:   #b81031;
+  --glitch-blue:  #4ceff3;
 
   /* Текст */
   --text:         rgba(200, 195, 220, 0.9);
@@ -27,7 +27,7 @@
   --text-muted:   rgba(120, 115, 140, 0.4);
 
   /* Границы */
-  --border:       rgba(100, 90, 140, 0.1);
+  --border:       rgba(118, 82, 97, 0.1);
   --border-hover: rgba(140, 130, 180, 0.25);
 
   /* Шрифты */
@@ -214,7 +214,7 @@ a, [role="button"] {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 50px;
+  top: 200px;
   align-items: center;
   flex-shrink: 0;
   /* Плавное появление кнопок при загрузке */
@@ -231,8 +231,8 @@ a, [role="button"] {
   color: var(--text) !important;
   border-color: var(--accent-dim) !important;
   padding: 14px 56px !important;
+  font-size: 24px;
 }
-
 
 /* ============================================================
    КНОПКИ (общий стиль — рисованный, минималистичный)
@@ -246,12 +246,14 @@ a, [role="button"] {
   text-transform: uppercase;
   color: var(--text-dim);
   background: transparent;
-  border: 1px solid var(--border);
+  border: 3px solid var(--border);
   padding: 12px 40px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  /* Эффект неровного края */
+  border-radius: 2px 6px 4px 8px; /* Разные радиусы для рисованного эффекта */
 }
 
 /* Подсветка при наведении */
@@ -267,6 +269,7 @@ a, [role="button"] {
 .btn-novel:hover {
   color: var(--accent);
   border-color: var(--border-hover);
+  border-radius: 6px 2px 8px 4px; /* Меняем при наведении */
 }
 
 .btn-novel:hover::before {
@@ -465,6 +468,16 @@ a, [role="button"] {
   max-height: 100%;
 }
 
+.video-watermark {
+  position: absolute;
+  left: 0px;    /* отступ слева */
+  bottom: 0px;  /* отступ снизу */
+  z-index: 36;   /* чтобы быть поверх видео */
+  width: auto;   /* или задайте фиксированную ширину */
+  height: auto;  /* или задайте фиксированную высоту */
+  pointer-events: none; /* чтобы картинка не мешала нажатиям на видео */
+}
+
 
 /* ============================================================
    ПЕРСОНАЖИ
@@ -604,16 +617,17 @@ a, [role="button"] {
 
 #dialogue-box {
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   width: 65%;
-  max-width: 780px;
+  min-width: 1000px;
+  min-height: 150px;
   background: var(--bg-panel);
   backdrop-filter: blur(24px);
-  border: 1px solid var(--border);
+  border: 3px solid var(--border);
   border-radius: 10px;
-  padding: 18px 28px 14px;
+  padding: 18px 18px 14px;
   cursor: pointer;
   user-select: none;
   box-shadow:
@@ -864,8 +878,7 @@ a, [role="button"] {
 .history-name {
   display: block;
   font-family: var(--font-display);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
+  font-size: 14px;
   color: var(--accent-dim);
   margin-bottom: 4px;
 }

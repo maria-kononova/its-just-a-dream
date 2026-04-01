@@ -30,6 +30,7 @@ class DialogueManager {
     this._typeTimer = null;       // Таймер посимвольного вывода
     this._currentCharIndex = 0;   // Индекс текущего символа
     this._isProcessing = false;   // Блокировка на время выполнения действий
+    this._waitingForClick = false; // Ожидание клика для перехода к следующей фразе
 
     // Текущий набор фраз (phrases или onHotspotsComplete и т.д.)
     this._currentPhrases = [];
@@ -79,12 +80,13 @@ class DialogueManager {
 
   /**
    * Показать конкретную фразу.
-   * Выполняет before-действия → печатает текст → ожидает клик → выполняет after-действия.
+   * Выполняет before-действия → печатает текст → выполняет after-действия → ждет клик.
    */
   async _showPhrase(phrase) {
     if (!phrase) return;
 
     this._isProcessing = true;
+    this._waitingForClick = false;
 
     // Получаем данные персонажа
     const character = scenario.getCharacter(phrase.character);
@@ -128,8 +130,14 @@ class DialogueManager {
     this._isProcessing = false;
     await this._typeText(phrase.text, isGlitch);
 
-    // Показываем подсказку «нажмите для продолжения»
+    // Автоматически выполняем after-действия после завершения печати
+    this._isProcessing = true;
+    await actionExecutor.execute(phrase.after);
+    this._isProcessing = false;
+
+    // Показываем подсказку и ждем клика для перехода к следующей фразе
     this._hintEl.classList.remove('hidden');
+    this._waitingForClick = true;
   }
 
   /**
@@ -208,7 +216,7 @@ class DialogueManager {
   /**
    * Обработчик клика/пробела — продвигает диалог.
    * Если текст печатается — скипает (показывает сразу).
-   * Если текст уже напечатан — переходит к следующей фразе.
+   * Если текст уже напечатан и after выполнен — переходит к следующей фразе.
    */
   async _onAdvance() {
     // Блокировка на время выполнения действий
@@ -223,38 +231,25 @@ class DialogueManager {
         this._typeResolve();
         this._typeResolve = null;
       }
-      this._hintEl.classList.remove('hidden');
       return;
     }
 
-    // Переход к следующей фразе
-    this._currentPhraseIndex++;
+    // Если waitingForClick === true, значит after уже выполнен и можно переходить
+    if (this._waitingForClick) {
+      this._waitingForClick = false;
+      this._hintEl.classList.add('hidden');
+      
+      // Переход к следующей фразе
+      this._currentPhraseIndex++;
 
-    if (this._currentPhraseIndex < this._currentPhrases.length) {
-      const currentPhrase = this._currentPhrases[this._currentPhraseIndex - 1];
-
-      // Выполняем after-действия предыдущей фразы
-      this._isProcessing = true;
-      await actionExecutor.execute(currentPhrase?.after);
-      this._isProcessing = false;
-
-      // Показываем следующую фразу
-      const nextPhrase = this._currentPhrases[this._currentPhraseIndex];
-      if (nextPhrase) {
-        await this._showPhrase(nextPhrase);
-      }
-    } else {
-      // Фразы закончились — выполняем after последней
-      const lastPhrase = this._currentPhrases[this._currentPhrases.length - 1];
-      const phrasesBeforeAfter = this._currentPhrases;
-
-      this._isProcessing = true;
-      await actionExecutor.execute(lastPhrase?.after);
-      this._isProcessing = false;
-
-      // Скрываем диалог только если after не загрузил новую комнату
-      // (goToRoom вызывает startPhrases с новым набором, не нужно скрывать)
-      if (this._currentPhrases === phrasesBeforeAfter) {
+      if (this._currentPhraseIndex < this._currentPhrases.length) {
+        // Показываем следующую фразу
+        const nextPhrase = this._currentPhrases[this._currentPhraseIndex];
+        if (nextPhrase) {
+          await this._showPhrase(nextPhrase);
+        }
+      } else {
+        // Фразы закончились — скрываем диалог
         this.hide();
       }
     }
@@ -298,6 +293,7 @@ class DialogueManager {
   hide() {
     this._box.classList.add('hidden');
     this._hintEl.classList.add('hidden');
+    this._waitingForClick = false;
   }
 }
 

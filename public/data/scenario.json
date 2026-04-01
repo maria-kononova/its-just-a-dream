@@ -3,15 +3,15 @@
   "_doc": "Каждая комната (room) содержит фразы (phrases), кликабельные зоны (hotspots) и загадки (puzzles). Фразы выводятся последовательно. Каждая фраза может запускать события до/после/во время показа.",
 
   "settings": {
-    "title": "Dream Novel",
-    "startRoom": "room_corridor",
+    "title": "It's just a dream",
+    "startRoom": "meeting_room",
     "textSpeed": 50,
     "defaultMusic": "ambient_dream"
   },
 
   "characters": {
-    "lina": {
-      "name": "Лина",
+    "me": {
+      "name": "Я",
       "color": "#b4aad2",
       "sprites": {
         "neutral": "/assets/characters/lina_neutral.png",
@@ -20,9 +20,10 @@
       }
     },
     "glitch": {
-      "name": "???",
-      "color": "#e74c5c",
+      "name": "? ? ?",
+      "color": "#b4aad2",
       "sprites": {
+        "icon": "/assets/characters/glitch.png",
         "neutral": "/assets/characters/glitch_neutral.png",
         "glitched": "/assets/characters/glitch_glitched.png"
       }
@@ -31,195 +32,581 @@
       "name": "",
       "color": "#888888",
       "sprites": {}
+    },
+       "tosya": {
+      "name": "yaku",
+      "color": "#FFC618"
+    },
+    "timur": {
+      "name": "k33hl",
+      "color": "#000000"
+    },
+    "nikitA": {
+      "name": "никитА",
+      "color": "#BEF574"
+    },
+    "well": {
+      "name": "Даша Well",
+      "color": "#FF2B2B"
+    },
+    "owari": {
+      "name": "ЖОМА",
+      "color": "#F984E5"
+    },
+    "buka": {
+      "name": "БУКА",
+      "color": "#7B68EE"
+    },
+    "alven": {
+      "name": "Юра",
+      "color": "#b01727"
+    },
+    "artem": {
+      "name": "Артём",
+      "color": "#FFDC33"
+    },
+    "beerlees": {
+      "name": "Даша Beerlees",
+      "color": "#3bde02"
+    },
+    "taiyo":{
+    "name": "taiyo",
+    "color": "#7272d0"
     }
   },
 
   "rooms": {
-    "room_corridor": {
-      "id": "room_corridor",
-      "background": "/assets/backgrounds/corridor.png",
-      "music": "ambient_dream",
-      "ambientEffects": ["vignette", "flicker"],
-      "idleHint": "Осмотрите стены коридора — где-то должен быть выключатель",
-
+    "meeting_room":{
+      "id": "meeting_room",
+      "background": "/assets/backgrounds/start.png",
+      "music": "ambient_noise",
+      "ambientEffects": ["flicker", "chromatic", "vignette"],
+      "idleHint": "",
       "phrases": [
         {
-          "id": "corr_01",
-          "character": "narrator",
-          "text": "Длинный коридор уходит в темноту. Стены мерцают, словно нарисованные на воде.",
+          "id": "meet_01",
+          "character" : "me",
+          "text": "Агх.. Ну что за герой",
           "before": [
-            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
+            {"type": "fadeToBlack",  "duration": 3000},
+            {"type": "playVideo", "src" : "/assets/videos/ana_sleep.mp4"}
+          ],
+          "after":[
+            {"type": "fadeToBlack",  "duration": 3000}
           ]
         },
         {
-          "id": "corr_02",
-          "character": "lina",
-          "sprite": "scared",
-          "text": "Где я?.. Это не похоже ни на один из моих снов.",
+          "id": "meet_02",
+          "character" : "narrator",
+          "text": "Темнота? Вокруг темно. Я вглядываюсь, но ничего не видно. Глаза ещё не привыкли."
+        },
+        {
+          "id": "meet_02.1",
+          "character" : "narrator",
+          "text": "Меня никогда не пугала темнота.. наверное."
+        },
+        {
+          "id": "meet_02.2",
+          "character" : "narrator",
+          "text": "Но здесь как-то не по себе. Я словно не чувствую своего тела или по ощущениям оно мне не принадлежит. Мм?",
+          "after" : [
+            {"type": "sound", "name": "steps"}
+          ]
+        },
+        {
+          "id": "meet_02.3",
+          "character" : "narrator",
+          "text": "Шаги?"
+        },
+        {
+          "id": "meet_03",
+          "character" : "glitch",
+          "text": "Оу.. А тут как-то вообще не так. Может картинка не прогрузилась?",
           "before": [
-            { "type": "showCharacter", "character": "lina", "position": "center", "sprite": "scared" }
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "icon" }
+          ]
+        },
+        {
+          "id": "meet_04",
+          "character" : "glitch",
+          "text": "*Клик-клик*",
+          "before": [
+            { "type": "sound", "name": "keyboard_click" }
           ],
           "after": [
-            { "type": "sound", "name": "whisper" }
+            {"type": "fadeFromBlack",  "duration": 3000},
+            {"type": "changeBackground", "src": "/assets/backgrounds/meeting_room.png"}
           ]
         },
         {
-          "id": "corr_03",
-          "character": "narrator",
-          "text": "Что-то мерцает в дальнем конце коридора. Нужно найти способ осветить путь.",
+          "id": "meet_05",
+          "character": "glitch",
+          "text" : "А? Здесь кто-то есть??",
+          "before": [
+            { "type": "sound", "name": "glitch_noise" }
+          ],
           "after": [
-            { "type": "enableHotspots" }
+            { "type": "effect", "name": "glitchLight", "duration": 800, "target": "screen" }
           ]
+        },
+        {
+          "id": "meet_06",
+          "character" : "me",
+          "text": "..."
+        },
+        {
+          "id": "meet_07",
+          "character" : "glitch",
+          "text": "..."
+        },
+        {
+          "id": "meet_08",
+          "character" : "narrator",
+          "text": "Этот голос.. Знакомый. Я где-то слышал его раньше. Вот только где?"
+        },
+        {
+          "id": "meet_09",
+          "character" : "me",
+          "text": "Мы знакомы?",
+          "after": [
+            {"type": "effect", "name": "shake", "duration": 800, "target": "screen"}
+          ]
+        },
+        {
+          "id": "meet_10",
+          "character" : "glitch",
+          "text": "Не знаю... Я очутилась тут неожиданно. И за всё время здесь у меня впервые ощущение, что я кого-то реально чувствую.",
+          "after": [
+            {"type": "effect", "name": "glitchLight", "duration": 800, "target": "screen"}
+          ]
+        },
+        {
+          "id": "meet_11",
+          "character" : "me",
+          "text": "Я сам не понимаю, что тут делаю. \"За всё время\".. Вы тут.. давно? "
+        },
+        {
+          "id": "meet_12",
+          "character" : "glitch",
+          "text": "В общем да, я долго брожу. Но раньше не было так темно. Будто бы кто-то выключил свет. ",
+          "after": [
+            {"type": "effect", "name": "glitchLight", "duration": 800, "target": "screen"}
+          ]
+        },
+        {
+          "id": "meet_13",
+          "character" : "me",
+          "text": "Есть шанс найти выключатель?"
+        },
+        {
+          "id": "meet_14",
+          "character" : "glitch",
+          "text": "Возможно? Попробуйте.. потыкать.",
+          "after": [
+          { "type": "enableHotspots" }
+      ]
         }
       ],
 
-      "hotspots": [
+    "hotspots": [
         {
-          "id": "light_switch",
-          "x": 75,
-          "y": 45,
-          "width": 8,
-          "height": 12,
+          "id": "pat_pat",
+          "x": 14,
+          "y": 75,
+          "width": 2,
+          "height": 2,
           "cursor": "pointer",
-          "tooltip": "Что-то на стене...",
-          "hint": "Попробуйте нажать на область справа — похоже на выключатель",
           "onInteract": [
-            { "type": "sound", "name": "switch_click" },
-            { "type": "effect", "name": "fadeToWhite", "duration": 500 },
-            { "type": "changeBackground", "src": "/assets/backgrounds/corridor_lit.png" },
-            { "type": "effect", "name": "fadeFromWhite", "duration": 500 },
-            { "type": "addItem", "item": "old_key" },
-            { "type": "continueDialogue", "phraseId": "corr_04" }
+            { "type": "continueDialogue", "phraseId": "meet_15" }
           ]
         }
       ],
 
       "onHotspotsComplete": [
         {
-          "id": "corr_04",
-          "character": "lina",
-          "sprite": "surprised",
-          "text": "Выключатель... Свет! И... на полу лежит старый ключ.",
-          "before": [
-            { "type": "changeSprite", "character": "lina", "sprite": "surprised" }
-          ]
+          "id": "meet_15",
+          "character" : "glitch",
+          "text": "Айч!.."
         },
         {
-          "id": "corr_05",
-          "character": "narrator",
-          "text": "Ключ покрыт странными символами. Может пригодиться.",
-          "after": [
-            { "type": "effect", "name": "glitchLight", "duration": 800, "target": "screen" },
-            { "type": "sound", "name": "glitch_noise" }
-          ]
-        },
-        {
-          "id": "corr_06",
-          "character": "glitch",
-          "sprite": "glitched",
-          "text": "Т̷ы̷ ̷н̷е̷ ̷д̷о̷л̷ж̷н̷а̷ ̷б̷ы̷л̷а̷ ̷э̷т̷о̷ ̷н̷а̷й̷т̷и̷.̷",
-          "before": [
-            { "type": "effect", "name": "glitchHeavy", "duration": 1500, "target": "screen" },
-            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "glitched" },
-            { "type": "sound", "name": "glitch_appear" }
-          ],
-          "after": [
-            { "type": "hideCharacter", "character": "glitch" },
-            { "type": "goToRoom", "room": "room_library", "transition": "transitionGlitch", "transitionDuration": 1200 }
-          ]
+          "id": "meet_16",
+          "character" : "narrator",
+          "text": "Это.. мягко?",
+          "after": [{ "type": "goToRoom", "room": "meeting_room2"}]
         }
       ]
     },
-
-    "room_library": {
-      "id": "room_library",
-      "background": "/assets/backgrounds/library.png",
-      "music": "ambient_library",
-      "ambientEffects": ["vignette"],
-      "idleHint": "Изучите книги на полках — одна из них содержит зашифрованное послание",
-
+    
+      "meeting_room2":{
+      "id": "meeting_room2",
+      "background": "/assets/backgrounds/meeting_room.png",
+      "music": "ambient_noise",
+      "ambientEffects": ["flicker", "vignette"],
+      "idleHint": "",
       "phrases": [
         {
-          "id": "lib_01",
-          "character": "narrator",
-          "text": "Библиотека. Книги на полках, но названия на обложках постоянно меняются.",
+          "id": "meet_17",
+          "character" : "glitch",
+          "text": "Умн.. Я думаю, он может быть где-то справа.", 
           "before": [
-            { "type": "effect", "name": "fadeFromBlack", "duration": 1500 }
-          ]
-        },
-        {
-          "id": "lib_02",
-          "character": "lina",
-          "sprite": "neutral",
-          "text": "Здесь должна быть подсказка... Нужно присмотреться к этим книгам.",
-          "before": [
-            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "icon" }
           ],
-          "after": [
-            { "type": "startPuzzle", "puzzleId": "cipher_puzzle" }
-          ]
-        }
-      ],
-
-      "puzzles": {
-        "cipher_puzzle": {
-          "type": "cipher",
-          "config": {
-            "title": "Шифр на страницах",
-            "description": "Расшифруйте послание, сдвигая буквы на 3 позиции назад (шифр Цезаря).",
-            "encoded": "СФКЛФЕ",
-            "answer": "ПРОБУД",
-            "shift": 3,
-            "hint": "Каждая буква сдвинута на 3 позиции вперёд в алфавите."
-          },
-          "onSolve": [
-            { "type": "sound", "name": "puzzle_solved" },
-            { "type": "effect", "name": "pulseGlow", "duration": 1000, "target": "puzzle" },
-            { "type": "continueDialogue", "phraseId": "lib_03" }
-          ]
-        }
-      },
-
-      "onPuzzleSolved": [
-        {
-          "id": "lib_03",
-          "character": "lina",
-          "sprite": "surprised",
-          "text": "«Пробуд...» — пробуждение? Это слово — ключ к чему-то!",
-          "after": [
-            { "type": "setFlag", "flag": "cipher_solved", "value": true }
-          ]
+          "after": [{ "type": "enableHotspots" }]
         },
         {
-          "id": "lib_04",
-          "character": "narrator",
-          "text": "Одна из книг начинает светиться. За ней — проход.",
-          "after": [
-            { "type": "enableHotspots" }
-          ]
+          "id": "meet_18",
+          "character" : "me",
+          "text": "Простите-"
         }
       ],
 
       "hotspots": [
         {
-          "id": "secret_passage",
-          "x": 50,
-          "y": 40,
-          "width": 15,
-          "height": 30,
+          "id": "light_switch",
+          "x":90,
+          "y": 50,
+          "width": 5,
+          "height": 5,
           "cursor": "pointer",
-          "tooltip": "Светящаяся книга",
-          "requiresFlag": "cipher_solved",
           "onInteract": [
-            { "type": "sound", "name": "stone_move" },
-            { "type": "effect", "name": "shake", "duration": 600 },
-            { "type": "goToRoom", "room": "room_mirror", "transition": "transitionDoor", "transitionDuration": 1400 }
+            { "type": "sound", "name": "switch_click" },
+            { "type": "continueDialogue", "phraseId": "meet_20" }
           ]
+      }],
+
+      "onHotspotsComplete":[
+        {
+          "id": "meet_20",
+          "character" : "narrator",
+          "text": "Нужно попробовать ещё раз.",
+          "after": [{ "type": "goToRoom", "room": "meeting_room3"}]
         }
       ]
     },
 
-    "room_mirror": {
+      "meeting_room3":{
+      "id": "meeting_room3",
+      "background": "/assets/backgrounds/meeting_room.png",
+      "music": "ambient_noise",
+      "ambientEffects": ["flicker", "vignette"],
+      "idleHint": "",
+
+        "phrases": [
+        {
+          "id": "meet_21.1",
+          "character" : "narrator",
+          "text": "Так ведь?..", 
+          "before": [
+            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "icon" }
+          ],
+          "after": [{ "type": "enableHotspots" }]
+        }
+      ],
+
+      "hotspots": [
+        {
+          "id": "light_switch2",
+          "x":90,
+          "y": 50,
+          "width": 5,
+          "height": 5,
+          "cursor": "pointer",
+          "onInteract": [
+            { "type": "sound", "name": "switch_click" },
+            { "type": "continueDialogue", "phraseId": "meet_21" }
+          ]
+      }],
+
+      "onHotspotsComplete":[
+        {
+          "id": "meet_21",
+          "character" : "narrator",
+          "text": "Ещё?.."
+        },
+
+        {
+          "id": "meet_22",
+          "character" : "glitch",
+          "text": "Тц.. Да уж, похоже отсутствует эЛеКтРоЭнЕрГиЯ.",
+          "after": [
+            {"type": "effect", "name": "glitchLight", "duration": 800, "target": "screen"}
+          ]
+        },
+        {
+          "id": "meet_23",
+          "character" : "me",
+          "text": "Типично, я не удивлён."
+        },
+        {
+          "id": "meet_24",
+          "character" : "me",
+          "text": "Значит электричества тут нет.. Может если поискать есть другой выключатель? Или генератор? Должно же быть в этой чёртовой дыре хоть что-то. Нужно просто.."
+        },
+        {
+          "id": "meet_22",
+          "character" : "glitch",
+          "text": "Стой!",
+          "after": [
+            {"type": "effect", "name": "shake", "duration": 300, "target": "screen"}
+          ]
+        },
+        {
+          "id": "meet_24",
+          "character" : "me",
+          "text": "Мм? Мы перешли на \"ты\"?"
+        },
+        {
+          "id": "meet_25",
+          "character" : "glitch",
+          "text": "Возможно, после того, как ты начал распускать руки. Но... мне кажется, тут может быть опасно. Не стоит.. "
+        },
+        {
+          "id": "meet_26",
+          "character" : "me",
+          "text": "Почему? По мне так вполне миленько."
+        },
+        {
+          "id": "meet_27",
+          "character" : "me",
+          "text": "Даже та тварь в углу выглядит безобидно. "
+        },
+        {
+          "id": "meet_28",
+          "character" : "glitch",
+          "text": "Хаа.. То что она улыбается не значит, что она добрая и не хочет отведать твоих мозгов. "
+        },
+        {
+          "id": "meet_29",
+          "character" : "me",
+          "text": "Пусть ест, я не жадный."
+        },
+        {
+          "id": "meet_30",
+          "character" : "narrator",
+          "text": "А? Что-то тёплое коснулось моей руки. Прикосновение отдало чём-то электрическим, словно импульсом. Незнакомка взяла меня за руку. Молча и не спрашивая.",
+          "after": [
+            {"type": "effect", "name": "glitchMedium", "duration": 500, "target": "screen"},
+            { "type": "goToRoom", "room": "room_corridor"}
+          ]
+        }
+      ]
+    },
+    
+    "room_corridor": {
+    "id": "room_corridor",
+    "background": "/assets/backgrounds/start.png",
+    "music": "ambient_dream",
+    "ambientEffects": [
+      "vignette",
+      "flicker"
+    ],
+    "idleHint": "",
+    "phrases": [
+      {
+        "id": "corr_01",
+        "character": "narrator",
+        "text": "Девушка повела меня за руку вперёд. Мы пошли медленно и осторожно, я бы сказал, \"Смотря под ноги\" если бы вокруг всё ещё не была кромешная темнота. Возможно нам просто было некуда спешить, а может она боялась случайно упасть вместе со мной на пол, если кто-то споткнётся."
+      },
+      {
+        "id": "corr_02",
+        "character": "narrator",
+        "text": "В моей голове не было лишних мыслей, необорот, мне казалось, что здесь было крайне спокойно. Только она почему-то суетилась."
+      },
+      {
+        "id": "corr_03",
+        "character": "me",
+        "text": "Куда мы идём?"
+      },
+      {
+        "id": "corr_04",
+        "character": "glitch",
+        "text": "Нам нужно найти выход."
+      },
+      {
+        "id": "corr_05",
+        "character": "me",
+        "text": "Зачем это? Тут не так уж и плохо."
+      },
+      {
+        "id": "corr_06",
+        "character": "narrator",
+        "text": "Она остановилась на месте. На мгновение показалось, будто я сказал что-то совсем не то. Я почувствовал, как девушка приблизилась ко мне, словно всматриваясь. Это заняло долгую минуту времени."
+      },
+      {
+        "id": "corr_07",
+        "character": "glitch",
+        "text": "Ты уже ломаешься. Тебе нельзя тут оставаться."
+      },
+      {
+        "id": "corr_08",
+        "character": "narrator",
+        "text": "Я не понимал, о чём речь. Её слова вызвали только замешательство."
+      },
+      {
+        "id": "corr_09",
+        "character": "me",
+        "text": "Где это.. \"тут\"?"
+      },
+      {
+        "id": "corr_10",
+        "character": "narrator",
+        "text": "Она отстранилась. Я почувствовал это легким дуновением воздуха. Ответа на мой вопрос не последовало."
+      },
+      {
+        "id": "corr_11",
+        "character": "glitch",
+        "text": "Смотри. Эта картина выглядит как-то странно."
+      },
+      {
+        "id": "corr_12",
+        "character": "me",
+        "text": "Где?.. Я ничего не вижу."
+      },
+      {
+        "id": "corr_13",
+        "character": "glitch",
+        "text": "А.. да? Брух.",
+        "after": [
+          {
+            "type": "playSound",
+            "name": "click"
+          },
+          {
+            "type": "changeBackgroud",
+            "src": "/assets/backgrounds/picture.png"
+          }
+        ]
+      },
+      {
+        "id": "corr_14",
+        "character": "me",
+        "text": "А нельзя было сразу так?"
+      },
+      {
+        "id": "corr_15",
+        "character": "glitch",
+        "text": "Извини. Это привлекает тварей. Я не могу подвергать тебя такой опасности."
+      },
+      {
+        "id": "corr_14",
+        "character": "me",
+        "text": "Допустим... И.. Что это? Картина?"
+      },
+       {
+    "id": "corr_15",
+    "character": "glitch",
+    "text": "Ого, а ты умненький. Вернее, ну, я в этом, конечно же, не сомневалась-"
+  },
+  {
+    "id": "corr_16",
+    "character": "glitch",
+    "text": "Правда."
+  },
+  {
+    "id": "corr_17",
+    "character": "glitch",
+    "text": "Я бы не допёрла, если бы сама это не придумала."
+  },
+  {
+    "id": "corr_18",
+    "character": "narrator",
+    "text": "Она усмехнулась. Темнота, твари, загадки.. Она.. Всем этим управляет? Я уже мало что понимаю. Вернее, вообще ничего."
+  },
+  {
+    "id": "corr_19",
+    "character": "me",
+    "text": "Допустим, но что это мне дало?"
+  },
+  {
+    "id": "corr_20",
+    "character": "glitch",
+    "text": "Мм.. Попробуй произнести это вслух."
+  },
+  {
+    "id": "corr_21",
+    "character": "me",
+    "text": "Что произнести?"
+  },
+  {
+    "id": "corr_22",
+    "character": "glitch",
+    "text": "Ну, твою отгадку."
+  },
+  {
+    "id": "corr_23",
+    "character": "me",
+    "text": "Ну и бред... Ну.. Светило..?"
+  },
+  {
+    "id": "corr_24",
+    "character": "glitch",
+    "text": "Хм.. Ничего не произошло? Попробуй погромче."
+  },
+  {
+    "id": "corr_25",
+    "character": "glitch",
+    "text": "И чётче."
+  },
+  {
+    "id": "corr_26",
+    "character": "me",
+    "text": "Можно ещё три раза как с Дедом Морозом, на табуреточке?"
+  },
+  {
+    "id": "corr_27",
+    "character": "glitch",
+    "text": "Ну ладно-ладно, на. (появляется кнопка вызова фонарика)"
+  },
+  {
+    "id": "corr_28",
+    "character": "glitch",
+    "text": "Сплошные баги в этой системе.."
+  },
+  {
+    "id": "corr_29",
+    "character": "me",
+    "text": "Что ты об этом знаешь?"
+  },
+  {
+    "id": "corr_30",
+    "character": "glitch",
+    "text": "Мм?"
+  },
+  {
+    "id": "corr_31",
+    "character": "me",
+    "text": "Ты точно всё знаешь. Спокойно гуляешь тут, включаешь все подряд, такое ощущение, что я у тебя тут на поводу."
+  },
+  {
+    "id": "corr_32",
+    "character": "glitch",
+    "text": "Что.. Нет.. Всё не так, как ты думаешь. Даже.. Наоборот?"
+  },
+  {
+    "id": "corr_33",
+    "character": "narrator",
+    "text": "Опять увилки, никакой конкретики. Возможно, стоит прекратить пытаться что-то выяснить. Она не скажет."
+  },
+  {
+    "id": "corr_34",
+    "character": "me",
+    "text": "Как тебя зовут? Я тебя знаю? Знаю же??"
+  },
+  {
+    "id": "corr_35",
+    "character": "narrator",
+    "text": "Я почувствовал, что она нервничает. Вернее, буквально ощутил, электрической волной. Стало почему-то больно, словно меня шарахнуло током."
+  },
+  {
+    "id": "corr_36",
+    "character": "glitch",
+    "text": "Я.. Мы.. Да.. Меня зовут Ţ̶̶̵̴̴̴̴̷̷̴̵̧̪̙̰̮͇̩̗̟̼̙͘͝͠͞͡a̴̴̸̴̸̵̵̴̷̴̧̧͈̟͉̗̣̟̺̖̤̣̠̱͔̻̤͓̣͎̙̳̱̱̦̺͘͠͠͝͠͡͝.i̸̵̵̴̸̵̸̷̵̶̴̷̸̸̵̵̴̸̸̷̶̴̴̸̧̡͉̰̱̘͍̦̻͎̦͘̕͞͡͞͠͠ỵ̶̵̶̷̸̶̴̶̸̸̶̴͍̯̘̖̙̗̝̼̫̺͘͘͜͢͞͝͠o̴̴̶̷̸̸̧̧̢̻̱͖̙̖͎̝͎̺̖̲͕͓̣̖̱̘̼̮̼͔͘͟͢͜͞͞͠͠͠..  (Помехи, сцена и персонаж пропадают)",
+    "after": [{ "type": "goToRoom", "room": "room_mirror"}]
+  }
+    ]
+  },
+
+   "room_mirror": {
       "id": "room_mirror",
       "background": "/assets/backgrounds/mirror_room.png",
       "music": "ambient_tension",
@@ -227,40 +614,23 @@
       "idleHint": "Осмотрите осколки зеркала — в них отражаются части лица",
 
       "phrases": [
-        {
-          "id": "mir_01",
+         {
+          "id": "mirr_01",
           "character": "narrator",
-          "text": "Комната с огромным зеркалом. В отражении — не ты.",
-          "before": [
-            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
-          ]
+          "text": "Меня откинуло в сторону. Всё пространство исказилось. Кажется, я прошёл сквозь стену, потому что очутился в совершенно другой комнате."
         },
         {
-          "id": "mir_02",
-          "character": "lina",
-          "sprite": "scared",
-          "text": "Это... это не моё отражение. Кто это?",
-          "before": [
-            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "scared" }
-          ]
-        },
-        {
-          "id": "mir_03",
-          "character": "glitch",
-          "sprite": "neutral",
-          "text": "Это я. Ошибка в твоём сне. Я застрял здесь.",
-          "before": [
-            { "type": "effect", "name": "glitchMedium", "duration": 1000, "target": "screen" },
-            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" }
-          ]
-        },
-        {
-          "id": "mir_04",
+          "id": "mirr_02",
           "character": "narrator",
-          "text": "Зеркало покрыто трещинами. В них — фрагменты изображения.",
-          "after": [
-            { "type": "startPuzzle", "puzzleId": "sequence_puzzle" }
-          ]
+          "text": "Она была светлой, я даже мог разобрать что-то. Книжные шкафы, стол, мягкий ковёр под ногами и большое зеркало. Я подошёл ближе."
+        },
+        {
+          "id": "mirr_03",
+          "character": "me",
+          "text": "Это.. Это не моё отражение. Кто это?",
+                    "after": [
+                  { "type": "startPuzzle", "puzzleId": "sequence_puzzle" }
+                ]
         }
       ],
 
@@ -281,100 +651,61 @@
           "onSolve": [
             { "type": "sound", "name": "glass_shatter" },
             { "type": "effect", "name": "shake", "duration": 1000 },
-            { "type": "continueDialogue", "phraseId": "mir_05" }
+            { "type": "continueDialogue", "phraseId": "mirr_04" }
           ]
         }
       },
 
       "onPuzzleSolved": [
         {
-          "id": "mir_05",
-          "character": "glitch",
-          "sprite": "glitched",
-          "text": "Ты... починила меня? Нет. Ты починила зеркало.",
-          "before": [
-            { "type": "effect", "name": "glitchHeavy", "duration": 2000, "target": "screen" }
-          ],
-          "after": [
-            { "type": "goToRoom", "room": "room_clock", "transition": "transitionSpiral", "transitionDuration": 1500 }
-          ]
-        }
-      ]
-    },
-
-    "room_clock": {
-      "id": "room_clock",
-      "background": "/assets/backgrounds/clock_room.png",
-      "music": "ambient_clock",
-      "ambientEffects": ["vignette", "flicker"],
-      "idleHint": "Одни часы стоят — посмотрите, какое время они показывают",
-
-      "phrases": [
-        {
-          "id": "clk_01",
+          "id": "mirr_04",
           "character": "narrator",
-          "text": "Часовая комната. Десятки часов на стенах — все показывают разное время.",
-          "before": [
-            { "type": "effect", "name": "fadeFromBlack", "duration": 1500 }
-          ]
+          "text": "Трещины на зеркале разгладились. В миг из него выпала девушка.Та самая. Я стоял слишком близко, поэтому мы вместе всё-таки полетели на пол."
         },
         {
-          "id": "clk_02",
-          "character": "lina",
-          "sprite": "neutral",
-          "text": "Если установить все часы на одно время, может, что-то произойдёт?",
-          "before": [
-            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
-          ],
-          "after": [
-            { "type": "startPuzzle", "puzzleId": "code_puzzle" }
-          ]
-        }
-      ],
-
-      "puzzles": {
-        "code_puzzle": {
-          "type": "code",
-          "config": {
-            "title": "Время пробуждения",
-            "description": "Введите правильное время. Подсказка спрятана в комнате.",
-            "answer": "0347",
-            "length": 4,
-            "hint": "На одних часах стрелки не двигаются — они показывают 03:47."
-          },
-          "onSolve": [
-            { "type": "sound", "name": "clock_chime" },
-            { "type": "effect", "name": "shake", "duration": 800 },
-            { "type": "continueDialogue", "phraseId": "clk_03" }
-          ]
-        }
-      },
-
-      "onPuzzleSolved": [
-        {
-          "id": "clk_03",
-          "character": "narrator",
-          "text": "Все часы остановились. Тишина оглушает.",
-          "after": [
-            { "type": "sound", "name": "silence_ring" }
-          ]
+          "id": "mirr_05",
+          "character": "me",
+          "text": "Угх... Ковёр оказался не такой мягкий.."
         },
         {
-          "id": "clk_04",
+          "id": "mirr_06",
+          "character": "narrator",
+          "text": "Я смотрел в потолок, ощущая на себе вес чужого тела. Мы молчали какое-то время. Я от усталости, девушка, видимо от оцепенения. Почему она вообще оказалась в зеркале? Ай ладно.. Всё равно ответов я не узнаю. Кстати, кажется вставать она не планировала."
+        },
+        {
+          "id": "mirr_07",
           "character": "glitch",
-          "sprite": "neutral",
-          "text": "Время — это единственное, что здесь настоящее. Спасибо.",
-          "before": [
-            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" }
-          ],
-          "after": [
-            { "type": "goToRoom", "room": "room_final", "transition": "transitionDoor", "transitionDuration": 1600 }
-          ]
+          "text": "Прости-прости."
+        },
+        {
+          "id": "mirr_08",
+          "character": "me",
+          "text": "Я больше не буду задавать тебе вопросов."
+        },
+        {
+          "id": "mirr_09",
+          "character": "glitch",
+          "text": "Ни одного?"
+        },
+        {
+          "id": "mirr_10",
+          "character": "me",
+          "text": "Ну.. разве что.. Встанешь с меня?"
+        },
+        {
+          "id": "mirr_11",
+          "character": "glitch",
+          "text": "Ой, точно, прости."
+        },
+        {
+          "id": "mirr_12",
+          "character": "narrator",
+          "text": "Девушка сразу поднялась и протянула мне руку. Я взглянул на её лицо, но его по прежнему не было видно (да, мне было лень рисовать :cat_stare:).",
+          "after": [{ "type": "goToRoom", "room": "ending_room"}]
         }
       ]
-    },
-
-    "room_final": {
+  },
+  "room_final": {
       "id": "room_final",
       "background": "/assets/backgrounds/final_door.png",
       "music": "ambient_final",
@@ -383,24 +714,28 @@
       "phrases": [
         {
           "id": "fin_01",
-          "character": "narrator",
-          "text": "Перед тобой — две двери. Одна ведёт к пробуждению, другая — глубже в сон.",
-          "before": [
-            { "type": "effect", "name": "fadeFromBlack", "duration": 2000 }
-          ]
+          "character": "glitch",
+          "Text": "К сожалению.. Я.. баг в этой системе и здесь мои ресурсы заканчиваются. И я не могу быть сейчас с тобой рядом. Не могу держать тебя за руку, потянуть за ушки ровно 22 раза, поцеловать и сказать, что ты самый лучший, глядя в твои прекрасные глаза."
         },
         {
           "id": "fin_02",
           "character": "glitch",
-          "sprite": "neutral",
-          "text": "Одна из дверей — для тебя. Другая — для меня. Выбирай.",
-          "before": [
-            { "type": "showCharacter", "character": "glitch", "position": "left", "sprite": "neutral" },
-            { "type": "showCharacter", "character": "lina", "position": "right", "sprite": "neutral" }
-          ],
-          "after": [
-            { "type": "showFinalChoice" }
-          ]
+          "Text": "Скорее всего ты такое не любишь, но я очень хочу, чтобы ты был счастлив, не смотря на твой внешний небольшой пессимизм."
+        },
+        {
+          "id": "fin_03",
+          "character": "glitch",
+          "Text": "С днём рождения тебя, солнышко. Я рада, что провела это мгновение с тобой. Но тебе пора идти. Оставаться здесь долго не безопасно."
+        },
+        {
+          "id": "fin_04",
+          "character": "narrator",
+          "Text": "Я ощутил легкое прикосновение к щеке. Короткое поглаживание холодных пальцев. Но по энергии более сильное, чем в прошлый раз, такое электрическое. Но пока потерялся в разгадках, понял, что рядом нет чужого присутствия."
+        },
+        {
+          "id": "fin_05",
+          "character": "narrator",
+          "Text": "Что бы это ни было, оно растворилось, исчезло за мгновение. Передо мной осталась только дверь с горящей надписью \"Выход\". Видимо здесь всё и закончится?..."
         }
       ],
 
@@ -412,7 +747,7 @@
             "type": "normal",
             "onSelect": [
               { "type": "effect", "name": "fadeToWhite", "duration": 3000 },
-              { "type": "goToRoom", "room": "room_ending" }
+              { "type": "goToRoom", "room": "ending_room" }
             ]
           },
           {
@@ -424,65 +759,151 @@
       }
     },
 
-    "room_ending": {
-      "id": "room_ending",
-      "background": "/assets/backgrounds/white.png",
-      "music": "none",
-      "ambientEffects": [],
-
+    "ending_room": {
+      "id": "ending_room",
+      "background": "/assets/backgrounds/myroom.png",
+      "music": "finalTrack",
+      "ambientEffects": [
+      ],
       "phrases": [
         {
           "id": "end_01",
           "character": "narrator",
-          "text": "Свет. Тепло. Ты просыпаешься.",
-          "before": [
-            { "type": "effect", "name": "fadeFromWhite", "duration": 3000 }
-          ]
+          "text": "Открыв глаза я заметил знакомую обстановку. Это моя комната. Лежать здесь было комфортно, привычно. Свернувшись в клубочек на диване в обнимку с тёплым пледом."
         },
         {
           "id": "end_02",
-          "character": "lina",
-          "sprite": "neutral",
-          "text": "Это был... просто сон?",
-          "before": [
-            { "type": "showCharacter", "character": "lina", "position": "center", "sprite": "neutral" }
-          ]
+          "character": "narrator",
+          "text": "Вокруг ничего не изменилось. Хотя призрачные остатки сна вызывали какое-то тревожное ощущение. Кстати.. А о чём был сон? Совершенно не помню."
         },
         {
           "id": "end_03",
+          "character": "me",
+          "text": "Ай.. не так важно, в любом случае, это просто сон."
+        },
+        {
+          "id": "end_04",
           "character": "narrator",
-          "text": "На прикроватной тумбочке лежит старый ключ с символами...",
+          "text": "Поднявшись с дивана и сладко потянувшись у меня слегка потемнело в глазах. Старость - не радость, явно."
+        },
+        {
+          "id": "end_05",
+          "character": "narrator",
+          "text": "Помещение освещал тусклый свет монитора. Забыл выключить. Совершенно не думал, что засну. Усевшись за стол оставалось только уставиться в экран.",
           "after": [
-            { "type": "effect", "name": "glitchLight", "duration": 500, "target": "screen" },
-            { "type": "effect", "name": "fadeToBlack", "duration": 3000 },
-            { "type": "showCredits" }
+            {
+              "type": "playVideo",
+              "src": "/assets/videos/desktop.mp4"
+            },
+            {
+              "type": "changeBackground",
+              "src": "/assets/backgrounds/discord.png"
+            }
           ]
+        },
+        {
+          "id": "end_06",
+          "character": "tosya",
+          "text": "желаю счастливого дня варения музыкальному продюсеру следующего поколения. желаю чтоб кто нибудь подарил новый резидент ивил, чтоб проект по дискорд ботику одобрили вот прям да, любовь любовилась, игры игрались, учеба учебилась, а счастье счастилось😇",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_07",
+          "character": "taiyo",
+          "text": "С днём варенья!! Пусть всё будет оХРЮнительно и заМУРчательно. Расти таким же лапочкой, побольше здоровья, хороших каток в овере и средств к выживанию. А вообще мяу мяу мямяу мяу.❤",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_08",
+          "character": "nikitA",
+          "text": "Сережа, поздравляю тебя с днем рождения! Буду банальным, поэтому пожелаю тебе в первую очередь здоровья, счастья и успехов в личной жизни! Спасибо за то, что играешь со мной в хс и в овер, ты один из лучших тиммейтов, с которыми я играл, я очень рад, что познакомился с тобой! Я верю, что ты обязательно возьмешь гма в овере и легенду в хсе, ведь ты уже являешься легендой в реальной жизни! Еще раз с днем рождения! cat_stare",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_09",
+          "character": "timur",
+          "text": "привет, старый молодой человек Серёжа!! с днём рождения тебя, дружище. помню как тебе буквально вчера 20 исполнялось, а вот уже 22-ой год у порога. \r\n\r\nя счастлив знакомству с тобой – многим своим увлечениям и попыткам в стремлениях обязан тебе, чему очень благодарен. \r\nне забуду и весь общий игровой опыт что мы прошли - дивинити, бг3, ремнант, пико парк и прочие (когда во второй? :cat_smirk:) ты очень крутой игровой напарник и солс-наставник!\r\n\r\nты человек множества талантов и всё в твоих руках. твои скиллы в кодинге порой вдохновляют и самому в чем-то разбираться; а сколько музыки мы все еще не слышали от тебя (ну сколько можно прятать!).\r\n\r\nсамое главное будь счастлив и здоров. как и все в нашей локалке, ты мне очень важен и интересен. с праздником!\r\nураааа с ыбубыбу бубыба!!!!",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_10",
+          "character": "well",
+          "text": "С днём рождения! Желаю тебе и дальше (и успешно!) развиваться в интересных тебе направлениях, от рисования и создания музыки до программирования, мастерства в блендере, знания японского и создания собственной игры, чтобы стать успешным, богатым и полететь в Японию, но самое главное счастливым и каждый день, насколько это возможно :пеппе_смотрит_на_закат_у_меня_нет_нитро:",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_11",
+          "character": "buka",
+          "text": "Ты довольно спокойный и уверенный чел, мы, конечно, мало с тобой общались, но могу сказать, что человек ты и правда хороший и приятный. Хочу пожелать тебе счастья, здоровья, всего самого наилучшего, удачи в начинаниях и любви. Чтоб на Болле и кофке взял чемпиона и я всем говорил, что у меня друг чемпион!",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_12",
+          "character": "alven",
+          "text": "с днём двадцатидвухлетнего дня года под номером двадцать два в честь рождения серёжи графа в двадцать второй раз. давайте пожелаем ему стать первым президентом россии, слушающим элден ост, и первым президентом россии, который станет третьим.\r\n\r\nусыпь всю землю своими салонами красоты, разбогатей, построй себе частный дом, дом кролику, дом своим бровям, дом никите, крестянам, рабочим, даже небу, и пусть у тебя будет всё так, как захочешь, пошли нахуй невзгоды, оседлай свою целеустремленность и мчись в кайфные дали.",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_13",
+          "character": "artem",
+          "text": "я как главный фанат желаю тебе больше мотивации, меньше лениться и не играть в ов*рвотч; если ты чем-то загорелся, то доводить всё до конца и получать от этого удовольствие и опыт. поздравляю с днем рождения и жду дарк соулс 4 с твоим именем в титрах :na:",
+          "after": [{"type": "playSound", "name": "discord"}]
+        },
+        {
+          "id": "end_14",
+          "character": "narrator",
+          "text": "Строки текста, наполненные дружеской тёплой атмосферой, бежали перед глазами. Я выдохнул, на моём лице была спокойная улыбка (надеюсь). Этот сАмЫй-ОбЫчНыЙ, по моему мнению, день подходил к концу. Но в этот раз он ощущался особенно.",
+          "after": [{"type": "showCredits"}]
         }
       ]
     }
-  },
+},
 
   "items": {
-    "old_key": {
-      "id": "old_key",
-      "name": "Старый ключ",
-      "description": "Покрыт странными символами, которые меняются при каждом взгляде.",
-      "icon": "/assets/items/old_key.png"
+    "instraction_correct":{
+      "id": "instraction_correct",
+      "name": "Инструкция к ИЭ Генератора С67F",
+      "description": "1. Если присутствует два красных провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый второй провод. Если дошел до конца — остановись.\r\n\r\n3. После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть зелёный — перережь последний провод. Если зелёного нет — перережь первый провод.\r\n\r\n4. Внимание! Если присутствует чёрный провод, нужно повторно выполнить третий пункт.",
+      "icon": "/assets/items/instraction_correct.png"
+    },
+    "instraction_uncorrect_1":{
+      "id": "instraction_uncorrect_1",
+      "name": "Инструкция к ИЭ Генератора DGM86",
+      "description": "1. Если присутствует два жёлтых провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый первый провод с шагом два. Если дошел до конца — остановись.\r\n\r\n3. После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть красный — перережь последний провод. Если красного нет — перережь первый провод.\r\n\r\n4. Внимание! Если присутствует жёлтый провод, нужно повторно выполнить второй пункт.",
+      "icon": "/assets/items/instraction_uncorrect_1.png"
+    },
+    "instraction_uncorrect_2":{
+      "id": "instraction_uncorrect_2",
+      "name": "Инструкция к ИЭ Генератора А65",
+      "description": "1. Если присутствует два синих провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый второй провод. Если дошел до конца — остановись.\r\n\r\n3.После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть жёлтый — перережь последний провод. Если жёлтого нет — перережь первый провод.\r\n\r\n4. Внимание! Если отсутствует синий провод, нужно повторно выполнить третий пункт.",
+      "icon": "/assets/items/instraction_uncorrect_2.png"
+    },
+    "heart":{
+      "id": "heart",
+      "name": "Её сердце",
+      "description":"Отдаёт теплом при касании и ярко светится.",
+      "icon": "/assets/items/heart.png"
     }
   },
 
   "audio": {
     "music": {
+      "ambient_noise": "/assets/music/noise.mp3",
       "ambient_dream":   "/assets/music/ambient_dream.mp3",
+
       "ambient_library": "/assets/music/ambient_library.mp3",
       "ambient_tension": "/assets/music/ambient_tension.mp3",
       "ambient_clock":   "/assets/music/ambient_clock.mp3",
       "ambient_final":   "/assets/music/ambient_final.mp3"
     },
     "sounds": {
-      "switch_click":   "/assets/sounds/switch_click.mp3",
-      "whisper":        "/assets/sounds/whisper.mp3",
       "glitch_noise":   "/assets/sounds/glitch_noise.mp3",
+      "keyboard_click": "/assets/sounds/keyboard_click.mp3",
+      "steps": "/assets/sounds/steps.mp3",
+      "btn_click": "/assets/sounds/btn_click.mp3",
+      "switch_click":   "/assets/sounds/switch_click.mp3",
+
+      "whisper":        "/assets/sounds/whisper.mp3",
       "glitch_appear":  "/assets/sounds/glitch_appear.mp3",
       "puzzle_solved":  "/assets/sounds/puzzle_solved.mp3",
       "stone_move":     "/assets/sounds/stone_move.mp3",
@@ -490,7 +911,6 @@
       "clock_chime":    "/assets/sounds/clock_chime.mp3",
       "silence_ring":   "/assets/sounds/silence_ring.mp3",
       "btn_hover":      "/assets/sounds/btn_hover.mp3",
-      "btn_click":      "/assets/sounds/btn_click.mp3",
       "text_type":      "/assets/sounds/text_type.mp3",
       "glitch_type":    "/assets/sounds/glitch_type.mp3"
     }

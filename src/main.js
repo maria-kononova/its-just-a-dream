@@ -5,8 +5,9 @@
  * 1. Загрузить сценарий (JSON)
  * 2. Инициализировать все менеджеры
  * 3. Создать атмосферные эффекты на стартовом экране
- * 4. Ожидать клик «Начать»
- * 5. При старте — плавный переход → загрузка первой комнаты
+ * 4. Запустить фоновую музыку
+ * 5. Ожидать клик «Начать»
+ * 6. При старте — остановить музыку и плавный переход → загрузка первой комнаты
  */
 
 import { eventBus } from './engine/EventBus.js';
@@ -18,6 +19,9 @@ import { audioManager } from './engine/AudioManager.js';
 import { effectsManager } from './effects/EffectsManager.js';
 import { puzzleManager } from './puzzles/PuzzleManager.js';
 import { uiManager } from './ui/UIManager.js';
+
+// URL фоновой музыки для стартового экрана
+const START_MUSIC_URL = 'assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
 
 /**
  * Инициализация приложения.
@@ -51,16 +55,19 @@ async function init() {
     document.getElementById('screen-title').classList.add('active');
     createTitleParticles();
 
-    // 7. Горячие клавиши
+    // 7. Запускаем фоновую музыку на стартовом экране
+    playTitleMusic();
+
+    // 8. Горячие клавиши
     initKeyboardShortcuts();
 
-    // 8. Шлейф курсора
+    // 9. Шлейф курсора
     initCursorTrail();
 
-    // 9. Подсказки по таймеру
+    // 10. Подсказки по таймеру
     initIdleHints();
 
-    // 10. Дыхание фона
+    // 11. Дыхание фона
     initBackgroundBreathing();
 
   } catch (err) {
@@ -81,10 +88,72 @@ async function init() {
 }
 
 /**
+ * Запуск фоновой музыки на стартовом экране.
+ */
+function playTitleMusic() {
+  // Создаем аудио-элемент для фоновой музыки, если его еще нет
+  let bgMusic = document.getElementById('title-bg-music');
+  
+  if (!bgMusic) {
+    bgMusic = document.createElement('audio');
+    bgMusic.id = 'title-bg-music';
+    bgMusic.loop = true;
+    bgMusic.volume = 0.5; // Устанавливаем громкость 50%
+    bgMusic.src = START_MUSIC_URL;
+    document.body.appendChild(bgMusic);
+  }
+  
+  // Загружаем и запускаем музыку
+  bgMusic.load();
+  
+  // Пытаемся запустить с обработкой ошибок (например, если файл не найден)
+  const playPromise = bgMusic.play();
+  
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      console.warn('[Audio] Не удалось автоматически запустить музыку:', error);
+      console.warn('[Audio] Возможно, требуется взаимодействие с пользователем');
+      
+      // Добавляем слушатель на первый клик для запуска музыки
+      const startButton = document.querySelector('#screen-title .start-button');
+      if (startButton) {
+        const oneTimePlay = () => {
+          bgMusic.play().catch(e => console.warn('[Audio] Всё ещё не удалось:', e));
+          startButton.removeEventListener('click', oneTimePlay);
+        };
+        startButton.addEventListener('click', oneTimePlay);
+      }
+    });
+  }
+}
+
+/**
+ * Остановка фоновой музыки при начале игры.
+ */
+function stopTitleMusic() {
+  const bgMusic = document.getElementById('title-bg-music');
+  if (bgMusic && !bgMusic.paused) {
+    // Плавное затухание перед остановкой
+    const fadeOut = setInterval(() => {
+      if (bgMusic.volume > 0.05) {
+        bgMusic.volume -= 0.05;
+      } else {
+        bgMusic.pause();
+        bgMusic.volume = 0.5; // Сброс громкости для следующего использования
+        clearInterval(fadeOut);
+      }
+    }, 50);
+  }
+}
+
+/**
  * Запуск игры с плавным переходом.
  */
 function startGame() {
   gameState.reset();
+  
+  // Останавливаем фоновую музыку при начале игры
+  stopTitleMusic();
 
   const titleScreen = document.getElementById('screen-title');
   const gameScreen = document.getElementById('screen-game');
