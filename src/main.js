@@ -21,7 +21,7 @@ import { puzzleManager } from './puzzles/PuzzleManager.js';
 import { uiManager } from './ui/UIManager.js';
 
 // URL фоновой музыки для стартового экрана
-const START_MUSIC_URL = 'assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
+const START_MUSIC_URL = '/assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
 
 /**
  * Инициализация приложения.
@@ -98,13 +98,14 @@ function playTitleMusic() {
     bgMusic = document.createElement('audio');
     bgMusic.id = 'title-bg-music';
     bgMusic.loop = true;
-    bgMusic.volume = 0.5; // Устанавливаем громкость 50%
+    bgMusic.volume = 0.1;
     bgMusic.src = START_MUSIC_URL;
     document.body.appendChild(bgMusic);
   }
   
   // Загружаем и запускаем музыку
   bgMusic.load();
+
   
   // Пытаемся запустить с обработкой ошибок (например, если файл не найден)
   const playPromise = bgMusic.play();

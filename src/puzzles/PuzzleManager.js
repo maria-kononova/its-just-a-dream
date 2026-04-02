@@ -466,7 +466,7 @@ class HiddenObjectsPuzzle {
 class WireCutPuzzle {
   render(container, config, onSolve) {
     // Правильный порядок разрезания (индексы проводов: 0-красный, 1-синий, 2-чёрный, 3-жёлтый, 4-зелёный)
-    const correctOrder = [3, 1, 0, 4]; // Жёлтый → Синий → Красный → Зелёный
+    const correctOrder = [3, 1, 4, 0]; // Жёлтый → Синий →  Зелёный → Красный 
     
     // Состояние проводов: false = целый, true = разрезан
     let wireState = [false, false, false, false, false];
@@ -500,6 +500,7 @@ class WireCutPuzzle {
           `).join('')}
         </div>
         
+                
         <div class="wire-actions">
           <button class="btn-novel btn-puzzle-submit">Проверить</button>
         </div>
@@ -521,7 +522,7 @@ class WireCutPuzzle {
       
       .wire-btn {
         width: 100%;
-        height: 48px;
+        height: 28px;
         border: none;
         border-radius: 4px;
         cursor: pointer;

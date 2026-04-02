@@ -501,7 +501,7 @@
             },
             {
               "type": "goToRoom",
-              "room": "room_corridor"
+              "room": "generator_room"
             }
           ]
         }
@@ -512,6 +512,7 @@
       "background": "/assets/backgrounds/start.png",
       "music": "ambient_generator",
       "ambientEffects": [
+                "flicker",
         "vignette",
         "chromatic"
       ],
@@ -545,13 +546,15 @@
           {
             "id": "gen_06",
             "character": "narrator",
-            "text": "Её руки накрыли мои глаза. Она оставалась сзади, из-за чего я очутился в легких, но тёплых объятиях. Странно, мои глаза были закрыты, но я начал видеть замытую картинку."
+            "text": "Её руки накрыли мои глаза. Она оставалась сзади, из-за чего я очутился в легких, но тёплых объятиях. Странно, мои глаза были закрыты, но я начал видеть размытую картинку.",
+            "after":[{"type": "changeBackground",
+              "src": "/assets/backgrounds/generatorRoom.png"}]
           },
           {
             "id": "gen_07",
             "character": "note",
             "text": "\"Я нашёл эту деталь для генератора в останках одной твари. Видимо он её сожрал. У меня не получилось её использовать. Скорее всего, деталь универсальная, подходит для разных генераторов и в зависимости от типа необходимо оставлять нужное количество проводов, возможно в нужном порядке или цвете. Где-то в шкафах должна заваляться инструкция, я точно видел коробку от этой детали ранее. Но у меня уже совсем не осталось сил. Темнота словно поглощает меня. С.\"",
-            "after":[{"type":"changeBackgroud", "src":"/assets/backgrounds/generatorRoom.png"},
+            "after":[
             {"type":"enableHotspots"}
           ]
           }
@@ -560,10 +563,10 @@
       "hotspots": [
         {
           "id": "box",
-          "x": 50,
-          "y": 50,
-          "width": 20,
-          "height": 10,
+          "x": 20,
+          "y": 20,
+          "width": 5,
+          "height": 5,
           "cursor": "pointer",
           "onInteract": [
             {
@@ -647,7 +650,8 @@
             "id": "gen_14",
             "character": "narrator",
             "text": "Девушка прошла к стене, проведя по той рукой. Из под тёмных обоев просочилась не менее тёмная дверь. Если до этого всё казалось более менее нормально, то сейчас я ужаснулся. Что это за место вообще??",
-            "after": [{"type": "changeBackgroud", "src":"/assets/backgrounds/generatorRoom_withDoor.png"}]
+            "after": [{"type": "changeBackground",
+              "src": "/assets/backgrounds/generatorRoom_withDoor.png"}]
           },
           {
             "id": "gen_15",
@@ -665,7 +669,7 @@
     "corridor_room": {
       "id": "corridor_room",
       "background": "/assets/backgrounds/start.png",
-      "music": "ambient_dream",
+      "music": "ambient_corridor",
       "ambientEffects": [
         "vignette",
         "flicker"
@@ -741,10 +745,8 @@
               "type": "playSound",
               "name": "click"
             },
-            {
-              "type": "changeBackgroud",
-              "src": "/assets/backgrounds/picture.png"
-            }
+            {"type": "changeBackground",
+              "src": "/assets/backgrounds/picture.png"}
           ]
         },
         {
@@ -836,8 +838,9 @@
     "room_mirror": {
       "id": "room_mirror",
       "background": "/assets/backgrounds/mirror_room.png",
-      "music": "ambient_tension",
+      "music": "ambient_mirror",
       "ambientEffects": [
+                "flicker",
         "vignette",
         "chromatic"
       ],
@@ -1026,6 +1029,7 @@
       "background": "/assets/backgrounds/start.png",
       "music": "ambient_clock",
       "ambientEffects": [
+                "flicker",
         "vignette",
         "pulseGlow"
       ],
@@ -1038,7 +1042,10 @@
         "id": "clock_02",
         "character": "narrator",
         "text": "Перед глазами появилась картинка. Помещение было уставлено часами абсолютно разных видов. Настенные, высокие напольные, маленькие карманные, лежащие на столе.",
-        "before": [{"type":"changeBackgroud", "src":"/assets/backgrounds/clock_room.png"}]
+        "before": [{
+              "type": "changeBackground",
+              "src": "/assets/backgrounds/clock.gif"
+            }]
       },
       {
         "id": "clock_03",
@@ -1065,7 +1072,6 @@
         "character": "narrator",
         "text": "Пробуждения? Я... сплю? Не успел и подумать, что снова размышляю о вопросах, на которые мне никто не даст ответов, перед лицом из больших часов вылетела кукушка, демонстрируя табло для ввода.",
         "after": [
-          {"type": "changeBackgroud", "src": "/assets/backgrounds/clock_room_kuku.png"},
           {
           "type":"sound", "name": "kuku"
           },
@@ -1094,7 +1100,11 @@
               {
         "id": "clock_08",
         "character": "narrator",
-        "text": "После ответа тиканье прекратилось, но больше совершенного ничего не произошло. Я оглянулся на девушку, что стояла у меня за плечом, словно подглядывая. Она явно чего-то ожидала. Но спустя мгновение повернула голову в сторону."
+        "text": "После ответа тиканье прекратилось, но больше совершенного ничего не произошло. Я оглянулся на девушку, что стояла у меня за плечом, словно подглядывая. Она явно чего-то ожидала. Но спустя мгновение повернула голову в сторону.",
+        "before":            [{
+              "type": "changeBackground",
+              "src": "/assets/backgrounds/clock_room.png"
+            }]
       },
       {
         "id": "clock_09",
@@ -1135,6 +1145,7 @@
       "background": "/assets/backgrounds/final_door.png",
       "music": "ambient_final",
       "ambientEffects": [
+                "flicker",
         "vignette",
         "pulseGlow"
       ],
@@ -1321,8 +1332,7 @@
     "ending_room": {
       "id": "ending_room",
       "background": "/assets/backgrounds/myroom.png",
-      "music": "ending_track",
-      "ambientEffects": ["chromatic"],
+      "ambientEffects": ["chromatic",         "flicker"],
       "phrases": [
         {
           "id": "end_01",
@@ -1473,6 +1483,7 @@
           "id": "end_16",
           "character": "narrator",
           "text": "Строки текста, наполненные дружеской, тёплой атмосферой, бежали перед глазами. Я выдохнул, на моём лице была спокойная улыбка (надеюсь). Этот сАмЫй-ОбЫчНыЙ, по моему мнению, день подходил к концу. Но в этот раз он ощущался особенно.",
+          "before": [{"type": "playSound", "name":"gena"}],
           "after": [
             {
               "type": "showCredits"
@@ -1513,12 +1524,11 @@
       "ambient_noise": "/assets/music/noise.mp3",
       "ambient_dream": "/assets/music/ambient_dream.mp3",
       "ending_track": "/assets/music/ending_track.mp",
-
-
-      "ambient_library": "/assets/music/ambient_library.mp3",
-      "ambient_tension": "/assets/music/ambient_tension.mp3",
       "ambient_clock": "/assets/music/ambient_clock.mp3",
-      "ambient_final": "/assets/music/ambient_final.mp3"
+      "ambient_final": "/assets/music/ambient_final.mp3",
+      "ambient_generator": "/assets/music/ambient_generator.mp3",
+      "ambient_mirror": "/assets/music/ambient_mirror.mp3",
+      "ambient_corridor": "/assets/music/ambient_corridor.mp3"
     },
     "sounds": {
       "glitch_noise": "/assets/sounds/glitch_noise.mp3",
@@ -1527,12 +1537,14 @@
       "btn_click": "/assets/sounds/btn_click.mp3",
       "switch_click": "/assets/sounds/switch_click.mp3",
       "kuku": "/assets/sounds/kuku.mp3",
+      "discord":"/assets/sounds/discord.mp3",
+      "gena":"/assets/sounds/gena.mp3",
+      "glass_shatter": "/assets/sounds/mirror.mp3",
 
       "whisper": "/assets/sounds/whisper.mp3",
       "glitch_appear": "/assets/sounds/glitch_appear.mp3",
       "puzzle_solved": "/assets/sounds/puzzle_solved.mp3",
       "stone_move": "/assets/sounds/stone_move.mp3",
-      "glass_shatter": "/assets/sounds/glass_shatter.mp3",
       "clock_chime": "/assets/sounds/clock_chime.mp3",
       "silence_ring": "/assets/sounds/silence_ring.mp3",
       "btn_hover": "/assets/sounds/btn_hover.mp3",

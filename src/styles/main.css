@@ -9,26 +9,26 @@
   /* Основные цвета */
   --bg-deep:      #050508;    /* Самый тёмный фон */
   --bg-dark:      #0a0a10;    /* Тёмный фон */
-  --bg-panel:     rgba(13, 8, 11, 0.7); /* Полупрозрачные панели */
-  --bg-modal:     rgba(10, 5, 8, 0.95);
+  --bg-panel:     rgba(13, 8, 11, 0.85); /* Полупрозрачные панели (чуть плотнее) */
+  --bg-modal:     rgba(10, 5, 8, 0.98);
 
   /* Акценты */
   --accent:       #bab9b9;    /* Лавандовый акцент */
-  --accent-dim:   rgba(145, 101, 119, 0.4);
-  --accent-glow:  rgba(180, 170, 210, 0.12);
+  --accent-dim:   rgba(145, 101, 119, 0.5);
+  --accent-glow:  rgba(180, 170, 210, 0.15);
 
   /* Глитч-акцент (для персонажа-ошибки) */
   --glitch-red:   #b81031;
   --glitch-blue:  #4ceff3;
 
   /* Текст */
-  --text:         rgba(200, 195, 220, 0.9);
-  --text-dim:     rgba(160, 155, 180, 0.6);
-  --text-muted:   rgba(120, 115, 140, 0.4);
+  --text:         rgba(200, 195, 220, 0.95);
+  --text-dim:     rgba(160, 155, 180, 0.75);
+  --text-muted:   rgba(120, 115, 140, 0.5);
 
   /* Границы */
-  --border:       rgba(118, 82, 97, 0.1);
-  --border-hover: rgba(140, 130, 180, 0.25);
+  --border:       rgba(118, 82, 97, 0.2);
+  --border-hover: rgba(140, 130, 180, 0.4);
 
   /* Шрифты */
   --font-display: 'Cinzel', serif;
@@ -240,20 +240,20 @@ a, [role="button"] {
 
 .btn-novel {
   font-family: var(--font-ui);
-  font-weight: 300;
-  font-size: 0.8rem;
+  font-weight: 500;
+  font-size: 0.85rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--text-dim);
-  background: transparent;
-  border: 3px solid var(--border);
+  color: var(--text);
+  background: rgba(8, 5, 10, 0.9);
+  border: 2px solid var(--border-hover);
   padding: 12px 40px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  /* Эффект неровного края */
-  border-radius: 2px 6px 4px 8px; /* Разные радиусы для рисованного эффекта */
+  border-radius: 2px 6px 4px 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* Подсветка при наведении */
@@ -268,8 +268,10 @@ a, [role="button"] {
 
 .btn-novel:hover {
   color: var(--accent);
-  border-color: var(--border-hover);
-  border-radius: 6px 2px 8px 4px; /* Меняем при наведении */
+  border-color: var(--accent-dim);
+  background: rgba(30, 20, 35, 0.95);
+  border-radius: 6px 2px 8px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-novel:hover::before {
@@ -292,18 +294,19 @@ a, [role="button"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(1px);
 }
 
 .modal-content {
   background: var(--bg-modal);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-hover);
   border-radius: 8px;
   padding: 40px;
   max-width: 500px;
   width: 90%;
   text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .modal-content h2 {
@@ -316,7 +319,7 @@ a, [role="button"] {
 
 .modal-content p {
   color: var(--text-dim);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.9rem;
   line-height: 1.8;
   margin-bottom: 16px;
@@ -440,7 +443,10 @@ a, [role="button"] {
   pointer-events: none;
 }
 
-/* Контейнер загадок */
+/* ============================================================
+   КОНТЕЙНЕР ЗАГАДОК — УЛУЧШЕННЫЙ
+   ============================================================ */
+
 #puzzle-container {
   position: absolute;
   inset: 0;
@@ -448,8 +454,17 @@ a, [role="button"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(5, 5, 8, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(5, 5, 8, 0.6);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+
+/* Контент загадки получает клики */
+#puzzle-container .puzzle-inner {
+  pointer-events: auto;
+  background: rgba(10, 7, 12, 0.98);
+  border: 2px solid var(--border-hover);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 /* Контейнер видео */
@@ -470,12 +485,12 @@ a, [role="button"] {
 
 .video-watermark {
   position: absolute;
-  left: 0px;    /* отступ слева */
-  bottom: 0px;  /* отступ снизу */
-  z-index: 36;   /* чтобы быть поверх видео */
-  width: auto;   /* или задайте фиксированную ширину */
-  height: auto;  /* или задайте фиксированную высоту */
-  pointer-events: none; /* чтобы картинка не мешала нажатиям на видео */
+  left: 0px;
+  bottom: 0px;
+  z-index: 36;
+  width: auto;
+  height: auto;
+  pointer-events: none;
 }
 
 
@@ -556,7 +571,7 @@ a, [role="button"] {
 
 
 /* ============================================================
-   UI-СЛОЙ (кнопки управления)
+   UI-СЛОЙ (кнопки управления) — ЧЁТКИЕ
    ============================================================ */
 
 #ui-layer {
@@ -566,45 +581,48 @@ a, [role="button"] {
   pointer-events: none;
 }
 
+/* Все прямые дети UI-слоя получают клики */
 #ui-layer > * {
   pointer-events: auto;
 }
 
-/* Кнопки справа снизу */
+/* Кнопки UI — чёткие, без размытия */
 #ui-buttons {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  z-index: 99;
   display: flex;
   gap: 10px;
+  z-index: 21;
 }
 
 .btn-ui {
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
+  background: rgba(10, 5, 8, 0.95);
+  border: 1px solid var(--border-hover);
+  color: var(--text);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .btn-icon-svg {
   width: 18px;
   height: 18px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
 
 .btn-ui:hover {
-  border-color: var(--border-hover);
+  border-color: var(--accent);
   color: var(--accent);
-  background: rgba(180, 170, 210, 0.06);
+  background: rgba(30, 20, 35, 0.98);
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .btn-ui:active {
@@ -613,7 +631,187 @@ a, [role="button"] {
 
 
 /* ============================================================
-   ДИАЛОГОВЫЙ БЛОК (плавающий, полупрозрачный)
+   БОКОВЫЕ ПАНЕЛИ (история, инвентарь) — ЧЁТКИЕ
+   ============================================================ */
+
+.side-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 640px;
+  height: 100%;
+  background: rgba(8, 5, 10, 0.98);
+  backdrop-filter: none;
+  border-left: 1px solid var(--border-hover);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: panel-slide-in 0.25s ease-out;
+  pointer-events: auto;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Затемнение фона за панелью */
+.side-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  pointer-events: auto;
+}
+
+@keyframes panel-slide-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border-hover);
+  background: rgba(5, 3, 8, 0.5);
+}
+
+.panel-header h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.btn-close-panel {
+  background: rgba(180, 170, 210, 0.1);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-close-panel:hover {
+  background: rgba(180, 170, 210, 0.2);
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  background: rgba(5, 3, 8, 0.3);
+}
+
+/* Скроллбар — более заметный */
+.panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-body::-webkit-scrollbar-track {
+  background: rgba(180, 170, 210, 0.05);
+  border-radius: 3px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+  background: var(--accent-dim);
+  border-radius: 3px;
+}
+
+.panel-body::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Записи истории — более чёткие */
+.history-entry {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(100, 90, 140, 0.15);
+  background: rgba(180, 170, 210, 0.03);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.history-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 6px;
+  letter-spacing: 0.1em;
+}
+
+.history-text {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Инвентарь — более чёткий */
+.inventory-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: rgba(180, 170, 210, 0.06);
+  border: 1px solid var(--border-hover);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.inventory-item:hover {
+  background: rgba(180, 170, 210, 0.12);
+  border-color: var(--accent-dim);
+  transform: translateX(-4px);
+}
+
+.item-icon {
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(180, 170, 210, 0.08);
+  border-radius: 6px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.item-name {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.item-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-weight: 400;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.inventory-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  text-align: center;
+  padding: 60px 0;
+}
+
+
+/* ============================================================
+   ДИАЛОГОВЫЙ БЛОК — БОЛЕЕ ЧЁТКИЙ
    ============================================================ */
 
 #dialogue-box {
@@ -622,23 +820,22 @@ a, [role="button"] {
   left: 50%;
   transform: translateX(-50%);
   width: 65%;
-  min-width: 1000px;
+  max-width: 1000px;
   min-height: 150px;
-  background: var(--bg-panel);
-  backdrop-filter: blur(24px);
-  border: 3px solid var(--border);
+  background: rgba(8, 5, 10, 0.92);
+  backdrop-filter: blur(1px);
+  border: 2px solid var(--border-hover);
   border-radius: 10px;
-  padding: 18px 18px 14px;
+  padding: 18px 24px 14px;
   cursor: pointer;
   user-select: none;
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(180, 170, 210, 0.04);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   animation: dialogue-enter 0.4s ease-out;
-  /* Grid: портрет + контент */
   display: flex;
   gap: 16px;
   align-items: flex-start;
+  z-index: 31;
+  pointer-events: auto;
 }
 
 /* Портрет персонажа рядом с именем */
@@ -691,9 +888,8 @@ a, [role="button"] {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   margin-bottom: 10px;
-  /* Тонкая линия под именем */
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(100, 90, 140, 0.06);
+  border-bottom: 1px solid rgba(100, 90, 140, 0.15);
 }
 
 /* Имя рассказчика скрывается, чтобы не было пустой строки */
@@ -703,12 +899,14 @@ a, [role="button"] {
 
 .dialogue-text {
   font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 1.02rem;
+  font-weight: 400;
+  font-size: 1.05rem;
   color: var(--text);
   line-height: 1.85;
   min-height: 1.8em;
+  max-width: 950px;
   letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Диалоговый блок глитч-персонажа — дрожит, красная рамка */
@@ -753,7 +951,7 @@ a, [role="button"] {
 
 
 /* ============================================================
-   ВЫБОР ВАРИАНТОВ
+   ВЫБОР ВАРИАНТОВ — БОЛЕЕ ЧЁТКИЙ
    ============================================================ */
 
 #choices-container {
@@ -764,7 +962,8 @@ a, [role="button"] {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 25;
+  z-index: 31;
+  pointer-events: auto;
 }
 
 .btn-choice {
@@ -788,7 +987,8 @@ a, [role="button"] {
   align-items: center;
   justify-content: center;
   gap: 40px;
-  background: rgba(5, 5, 8, 0.6);
+  background: rgba(5, 5, 8, 0.8);
+  z-index: 32 !important;
 }
 
 .btn-runaway {
@@ -797,158 +997,48 @@ a, [role="button"] {
   transition: left 0.15s ease, top 0.15s ease;
 }
 
-
-/* ============================================================
-   БОКОВЫЕ ПАНЕЛИ (история, инвентарь)
-   ============================================================ */
-
-.side-panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 640px;
-  height: 100%;
-  background: var(--bg-modal);
-  border-left: 1px solid var(--border);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  animation: panel-slide-in 0.25s ease-out;
-}
-
-@keyframes panel-slide-in {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.panel-header h3 {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  color: var(--accent);
-}
-
-.btn-close-panel {
-  background: none;
-  border: none;
+.choice-option {
+  background: rgba(8, 5, 10, 0.95);
+  backdrop-filter: none;
+  border: 1px solid var(--border-hover);
+  border-left: 3px solid var(--accent-dim);
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.95rem;
   color: var(--text-dim);
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: color 0.3s;
+  cursor: var(--cursor-pointer);
+  transition: all 0.3s;
+  text-align: left;
+  min-width: 280px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.btn-close-panel:hover {
-  color: var(--accent);
+.choice-option:hover {
+  color: var(--text);
+  border-color: var(--accent-dim);
+  border-left-color: var(--accent);
+  background: rgba(180, 170, 210, 0.12);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
-
-.panel-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 24px;
-}
-
-/* Скроллбар */
-.panel-body::-webkit-scrollbar {
-  width: 4px;
-}
-
-.panel-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.panel-body::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
-}
-
-/* Записи истории */
-.history-entry {
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(100, 90, 140, 0.05);
-}
-
-.history-name {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 14px;
-  color: var(--accent-dim);
-  margin-bottom: 4px;
-}
-
-.history-text {
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: var(--text-dim);
-  line-height: 1.7;
-}
-
-/* Инвентарь */
-.inventory-item {
-  display: flex;
-  gap: 14px;
-  margin-bottom: 16px;
-  padding: 12px;
-  background: rgba(180, 170, 210, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-
-.item-icon {
-  width: 128px;
-  height: 128px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(180, 170, 210, 0.05);
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.item-name {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-
-.item-desc {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  font-weight: 300;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-.inventory-empty {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-style: italic;
-  text-align: center;
-  padding: 40px 0;
-}
-
 
 /* ============================================================
    ЗАГАДКИ (общие стили)
    ============================================================ */
 
 .puzzle-inner {
-  background: var(--bg-modal);
-  border: 1px solid var(--border);
+  background: rgba(10, 7, 12, 0.98);
+  border: 2px solid var(--border-hover);
   border-radius: 10px;
   padding: 36px;
   max-width: 500px;
   width: 90%;
   text-align: center;
+  position: relative;
+  z-index: 31;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .puzzle-title {
@@ -961,7 +1051,7 @@ a, [role="button"] {
 
 .puzzle-desc {
   color: var(--text-dim);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 0.85rem;
   line-height: 1.7;
   margin-bottom: 24px;
@@ -978,11 +1068,11 @@ a, [role="button"] {
 }
 
 .puzzle-feedback.correct {
-  color: #6ab07a;
+  color: #4caf50;
 }
 
 .puzzle-feedback.wrong {
-  color: var(--glitch-red);
+  color: #f44336;
 }
 
 .puzzle-hint {
@@ -1023,7 +1113,7 @@ a, [role="button"] {
 .code-digit {
   width: 48px;
   height: 56px;
-  background: rgba(180, 170, 210, 0.05);
+  background: rgba(180, 170, 210, 0.08);
   border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--accent);
@@ -1042,7 +1132,7 @@ a, [role="button"] {
 /* --- CipherPuzzle --- */
 .cipher-display {
   padding: 20px;
-  background: rgba(180, 170, 210, 0.04);
+  background: rgba(180, 170, 210, 0.06);
   border: 1px solid var(--border);
   border-radius: 6px;
   margin-bottom: 20px;
@@ -1065,7 +1155,7 @@ a, [role="button"] {
   flex: 1;
   max-width: 300px;
   padding: 10px 16px;
-  background: rgba(180, 170, 210, 0.05);
+  background: rgba(180, 170, 210, 0.08);
   border: 1px solid var(--border);
   border-radius: 4px;
   color: var(--text);
@@ -1092,7 +1182,7 @@ a, [role="button"] {
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   color: var(--text-dim);
-  background: rgba(180, 170, 210, 0.05);
+  background: rgba(180, 170, 210, 0.08);
   border: 1px solid var(--border);
   padding: 12px 20px;
   border-radius: 4px;
@@ -1106,8 +1196,8 @@ a, [role="button"] {
 }
 
 .sequence-correct {
-  background: rgba(106, 176, 122, 0.15) !important;
-  border-color: rgba(106, 176, 122, 0.3) !important;
+  background: rgba(106, 176, 122, 0.2) !important;
+  border-color: rgba(106, 176, 122, 0.4) !important;
   color: #6ab07a !important;
 }
 
@@ -1135,7 +1225,7 @@ a, [role="button"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(180, 170, 210, 0.08);
+  background: rgba(180, 170, 210, 0.1);
   border: 1px solid var(--border);
   border-radius: 4px;
   font-family: var(--font-display);
@@ -1146,7 +1236,7 @@ a, [role="button"] {
 }
 
 .slider-tile:hover:not(.slider-empty) {
-  background: rgba(180, 170, 210, 0.15);
+  background: rgba(180, 170, 210, 0.18);
 }
 
 .slider-empty {
@@ -1185,14 +1275,14 @@ a, [role="button"] {
 }
 
 .card-front {
-  background: rgba(180, 170, 210, 0.08);
+  background: rgba(180, 170, 210, 0.1);
   border: 1px solid var(--border);
   color: var(--text-dim);
   font-size: 1.2rem;
 }
 
 .card-back {
-  background: rgba(180, 170, 210, 0.12);
+  background: rgba(180, 170, 210, 0.15);
   border: 1px solid var(--accent-dim);
   color: var(--accent);
   transform: rotateY(180deg);
@@ -1234,13 +1324,85 @@ a, [role="button"] {
 
 .hidden-object.found {
   border-color: rgba(106, 176, 122, 0.5);
-  background: rgba(106, 176, 122, 0.15);
+  background: rgba(106, 176, 122, 0.2);
   pointer-events: none;
 }
 
 .hidden-counter {
   font-size: 0.75rem;
   color: var(--text-muted);
+}
+
+/* --- WireCutPuzzle --- */
+.wires-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.wire-btn {
+  width: 100%;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.wire-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.01);
+}
+
+.wire-btn:active {
+  transform: scale(0.99);
+}
+
+.wire-btn.cut {
+  opacity: 0.6;
+  cursor: default;
+  filter: grayscale(0.3);
+}
+
+.wire-btn.cut:hover {
+  filter: grayscale(0.3);
+  transform: none;
+}
+
+.wire-cut-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 2px black;
+  pointer-events: none;
+}
+
+.wire-cut-mark:not(.hidden) {
+  display: flex;
+}
+
+.wire-cut-mark.hidden {
+  display: none;
+}
+
+.wire-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 
@@ -1296,14 +1458,13 @@ a, [role="button"] {
 
 /* --- Тряска --- */
 .effect-shake {
-  animation: shake-anim 0.1s steps(2) infinite;
+  animation: shake-anim 0.5s ease-in-out;
 }
 
 @keyframes shake-anim {
-  0%  { transform: translate(0); }
-  25% { transform: translate(-4px, 2px); }
-  50% { transform: translate(4px, -2px); }
-  75% { transform: translate(-2px, 4px); }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
 @keyframes shake-small {
@@ -1316,7 +1477,7 @@ a, [role="button"] {
 .effect-noise {
   position: absolute;
   inset: 0;
-  z-index: 99;
+  z-index: 98;
   pointer-events: none;
   opacity: 0.5;
   mix-blend-mode: overlay;
@@ -1494,15 +1655,15 @@ a, [role="button"] {
 }
 
 .toast {
-  background: var(--bg-panel);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
+  background: rgba(8, 5, 10, 0.95);
+  backdrop-filter: blur(1px);
+  border: 1px solid var(--border-hover);
   border-left: 3px solid var(--accent-dim);
   border-radius: 6px;
   padding: 12px 20px;
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--text);
   animation: toast-in 0.4s ease-out, toast-out 0.4s ease-in 2.6s forwards;
@@ -1519,7 +1680,7 @@ a, [role="button"] {
 }
 
 .toast .toast-title {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--accent);
   margin-bottom: 2px;
   font-size: 0.65rem;
@@ -1588,39 +1749,7 @@ a, [role="button"] {
 
 
 /* ============================================================
-   ДИАЛОГОВЫЕ ВЫБОРЫ (улучшенные)
-   ============================================================ */
-
-.choice-option {
-  background: var(--bg-panel);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent-dim);
-  border-radius: 6px;
-  padding: 14px 28px;
-  font-family: var(--font-body);
-  font-weight: 300;
-  font-size: 0.9rem;
-  color: var(--text-dim);
-  cursor: var(--cursor-pointer);
-  transition: all 0.3s;
-  text-align: left;
-  min-width: 280px;
-}
-
-.choice-option:hover {
-  color: var(--text);
-  border-color: var(--accent-dim);
-  border-left-color: var(--accent);
-  background: rgba(180, 170, 210, 0.06);
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-
-/* ============================================================
    ЭФФЕКТ «ДЫХАНИЯ» ФОНА
-   Фон очень медленно масштабируется, создавая ощущение жизни.
    ============================================================ */
 
 .ambient-breathing {
@@ -1700,13 +1829,14 @@ a, [role="button"] {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--bg-panel);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
+  background: rgba(8, 5, 10, 0.95);
+  backdrop-filter: blur(1px);
+  border: 1px solid var(--border-hover);
   border-radius: 8px;
   padding: 10px 20px;
   animation: idle-hint-in 0.5s ease-out;
   pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .idle-hint-icon {
@@ -1726,7 +1856,7 @@ a, [role="button"] {
 .idle-hint-text {
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--text-dim);
   letter-spacing: 0.05em;
 }
@@ -1746,7 +1876,38 @@ a, [role="button"] {
    ВАРИАТИВНЫЕ ПЕРЕХОДЫ МЕЖДУ КОМНАТАМИ
    ============================================================ */
 
-/* Дверной проём — чёрные полосы сходятся */
+/* Тёмное растворение (Dark Fade) — основной переход для хоррор-атмосферы
+   Медленный, глубокий чёрный цвет, без резких движений.
+   Используйте class="transition-fade" на элементе-оверлее.
+*/
+.transition-fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000; /* Абсолютно чёрный */
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.4, 0.0, 0.2, 1); /* Долго и плавно */
+}
+
+.transition-fade.in {
+    opacity: 1;
+}
+
+/* (Опционально) Затемнение через цветной фильтр, если нужно передать настроение */
+.transition-fade-colored {
+    background-color: #0a0508; /* Очень тёмный, почти чёрный с фиолетовым отливом */
+    transition: opacity 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Ниже — старые переходы (можно удалить, если не используются).
+   Оставлены на случай, если нужны альтернативы, но для хоррора рекомендуется только Fade.
+*/
+
+/* Дверной проём — чёрные полосы сходятся (БОЛЕЕ НЕ РЕКОМЕНДУЕТСЯ) */
 .transition-door {
   position: absolute;
   inset: 0;
@@ -1788,7 +1949,7 @@ a, [role="button"] {
   to   { transform: scaleX(0); }
 }
 
-/* Глитч-разрыв — экран разбивается на полосы */
+/* Глитч-разрыв — экран разбивается на полосы (БОЛЕЕ НЕ РЕКОМЕНДУЕТСЯ) */
 .transition-glitch {
   position: absolute;
   inset: 0;
@@ -1811,14 +1972,13 @@ a, [role="button"] {
   100% { transform: translateX(0); opacity: 1; }
 }
 
-/* Спираль — чёрный круг сходится к центру, затем расходится */
+/* Спираль — чёрный круг сходится к центру, затем расходится (БОЛЕЕ НЕ РЕКОМЕНДУЕТСЯ) */
 .transition-spiral {
   position: absolute;
   inset: 0;
   z-index: 100;
   pointer-events: none;
   background: #000;
-  /* clip-path: circle от большого к маленькому */
   clip-path: circle(150% at 50% 50%);
   animation: spiral-close calc(var(--spiral-duration, 0.6s)) ease-in forwards;
 }
@@ -1837,20 +1997,87 @@ a, [role="button"] {
   to   { clip-path: circle(150% at 50% 50%); }
 }
 
-.puzzle-feedback.correct {
-  color: #4caf50;
+/* ============================================================
+   ФИКС: видимость UI и боковых панелей во время загадок
+   ============================================================ */
+
+/* Боковые панели должны быть выше всего */
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 640px;
+  height: 100%;
+  background: rgba(8, 5, 10, 0.98);
+  backdrop-filter: none;
+  border-left: 1px solid var(--border-hover);
+  z-index: 200 !important; /* Очень высокий приоритет */
+  display: flex;
+  flex-direction: column;
+  animation: panel-slide-in 0.25s ease-out;
+  pointer-events: auto;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.puzzle-feedback.wrong {
-  color: #f44336;
+/* Затемнение за панелью */
+.side-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 199 !important;
+  pointer-events: auto;
 }
 
-.effect-shake {
-  animation: shake 0.5s ease-in-out;
+/* Кнопки UI */
+#ui-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 150 !important;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+/* Контейнер загадки — ниже панелей */
+#puzzle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  background: rgba(5, 5, 8, 0.7);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+
+/* Содержимое загадки */
+#puzzle-container .puzzle-inner {
+  pointer-events: auto;
+  position: relative;
+  z-index: 31;
+}
+
+/* Диалоговое окно выше загадки */
+#dialogue-box {
+  z-index: 100 !important;
+}
+
+/* Выбор вариантов выше загадки */
+#choices-container {
+  z-index: 100 !important;
+}
+
+/* Убираем pointer-events: none с ui-layer для его детей */
+#ui-layer {
+  pointer-events: none;
+}
+
+#ui-layer > * {
+  pointer-events: auto;
+}
+
+/* Но кнопки UI и так получат события */
+.btn-ui {
+  pointer-events: auto;
 }
