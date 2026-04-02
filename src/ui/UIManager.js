@@ -250,6 +250,12 @@ class UIManager {
     const room = scenario.getRoom(gameState.currentRoom);
     if (!room?.finalChoice) return;
 
+    // Скрываем затемнённый экран, если он есть
+    const darkScreen = document.querySelector('.dark-screen, .final-choice-darken, #dark-overlay, .overlay-dark');
+    if (darkScreen) {
+      darkScreen.classList.add('hidden');
+    }
+
     const container = document.getElementById('choices-container');
     container.classList.remove('hidden');
     container.innerHTML = '';
@@ -312,14 +318,24 @@ class UIManager {
     credits.innerHTML = `
       <div class="credits-content">
         <h2>Конец</h2>
-        <p>Спасибо за прохождение</p>
-        <p class="credits-small">Разработка и арт: [Ваше имя]</p>
-        <button class="btn-novel btn-credits-close">На главную</button>
+        <p>Спасибо за время, проведённое с тобой</p>
+        <p class="credits-small">Идея: Тайо</p>
+        <p class="credits-small">Разработка: Тайо (Claude Code)</p>
+        <p class="credits-small">Плохой дизайн: Тайо</p>
+        <p class="credits-small">Музыка: скачено с интернетика по поиску "бесплатни"</p>
+        <p class="credits-small">Сценарий: Тайо</p>
+        <button class="btn-novel btn-credits-close">Скачать</button>
       </div>
     `;
 
     credits.querySelector('.btn-credits-close').addEventListener('click', () => {
-      window.location.reload();
+      const imageUrl = '/assets/items/heart.png';
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = 'heart.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
 
     gameScreen.appendChild(credits);

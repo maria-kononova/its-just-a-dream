@@ -454,6 +454,235 @@ class HiddenObjectsPuzzle {
   }
 }
 
+/**
+ * WireCutPuzzle — обезвреживание устройства путём перерезания проводов.
+ * 
+ * Правила:
+ * - Провода: Красный, Синий, Чёрный, Жёлтый, Зелёный (всегда в этом порядке)
+ * - Верный порядок: Жёлтый → Синий → Красный → Зелёный
+ * - Чёрный провод перерезать нельзя (но это нигде не указано)
+ * - При ошибке все провода восстанавливаются
+ */
+class WireCutPuzzle {
+  render(container, config, onSolve) {
+    // Правильный порядок разрезания (индексы проводов: 0-красный, 1-синий, 2-чёрный, 3-жёлтый, 4-зелёный)
+    const correctOrder = [3, 1, 0, 4]; // Жёлтый → Синий → Красный → Зелёный
+    
+    // Состояние проводов: false = целый, true = разрезан
+    let wireState = [false, false, false, false, false];
+    // Порядок разрезания (храним индексы в том порядке, как резал игрок)
+    let cutSequence = [];
+    // Флаг, что загадка уже решена (блокируем повторные проверки)
+    let solved = false;
+    
+    // Цвета проводов (для тёмного фона)
+    const wireColors = [
+      '#c41e3a', // Красный - тёмно-красный
+      '#2c5f8a', // Синий - приглушённый синий
+      '#2a2a2a', // Чёрный - почти чёрный с оттенком
+      '#c4a747', // Жёлтый - тёмно-золотой
+      '#2d6b3f'  // Зелёный - тёмно-зелёный
+    ];
+    
+    const wireNames = ['Красный', 'Синий', 'Чёрный', 'Жёлтый', 'Зелёный'];
+    
+    container.innerHTML = `
+      <div class="puzzle-inner puzzle-wirecut">
+        <h3 class="puzzle-title">${config.title || 'Обезвредите устройство'}</h3>
+        <p class="puzzle-desc">${config.description || 'Перережьте провода в правильном порядке.'}</p>
+        
+        <div class="wires-container">
+          ${wireNames.map((name, idx) => `
+            <button class="wire-btn" data-index="${idx}" data-name="${name}" 
+                    style="background: ${wireColors[idx]};">
+              <span class="wire-cut-mark hidden">/</span>
+            </button>
+          `).join('')}
+        </div>
+        
+        <div class="wire-actions">
+          <button class="btn-novel btn-puzzle-submit">Проверить</button>
+        </div>
+        
+        <p class="puzzle-feedback hidden"></p>
+      </div>
+    `;
+    
+    // Стили для контейнера проводов
+    const style = document.createElement('style');
+    style.textContent = `
+      .wires-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 20px 0;
+        padding: 10px;
+      }
+      
+      .wire-btn {
+        width: 100%;
+        height: 48px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .wire-btn:hover {
+        filter: brightness(1.1);
+        transform: scale(1.01);
+      }
+      
+      .wire-btn:active {
+        transform: scale(0.99);
+      }
+      
+      .wire-btn.cut {
+        opacity: 0.6;
+        cursor: default;
+        filter: grayscale(0.3);
+      }
+      
+      .wire-btn.cut:hover {
+        filter: grayscale(0.3);
+        transform: none;
+      }
+      
+      .wire-cut-mark {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(0, 0, 0, 0.3);
+        text-shadow: 0 0 2px black;
+        pointer-events: none;
+      }
+      
+      .wire-cut-mark:not(.hidden) {
+        display: flex;
+      }
+      
+      .wire-cut-mark.hidden {
+        display: none;
+      }
+    `;
+    container.appendChild(style);
+    
+    const wires = container.querySelectorAll('.wire-btn');
+    const feedback = container.querySelector('.puzzle-feedback');
+    const submitBtn = container.querySelector('.btn-puzzle-submit');
+    
+    // Функция обновления визуального состояния проводов
+    const updateWireVisual = () => {
+      wires.forEach((wire, idx) => {
+        const cutMark = wire.querySelector('.wire-cut-mark');
+        if (wireState[idx]) {
+          wire.classList.add('cut');
+          cutMark.classList.remove('hidden');
+        } else {
+          wire.classList.remove('cut');
+          cutMark.classList.add('hidden');
+        }
+      });
+    };
+    
+    // Функция сброса загадки
+    const resetPuzzle = () => {
+      wireState = [false, false, false, false, false];
+      cutSequence = [];
+      updateWireVisual();
+      feedback.classList.add('hidden');
+    };
+    
+    // Функция проверки решения
+    const checkSolution = () => {
+      if (solved) return;
+      
+      // Сравниваем последовательность с правильным порядком
+      let isCorrect = true;
+      
+      // Должно быть перерезано ровно 4 провода (чёрный остаётся)
+      if (cutSequence.length !== correctOrder.length) {
+        isCorrect = false;
+      } else {
+        // Проверяем каждый шаг
+        for (let i = 0; i < correctOrder.length; i++) {
+          if (cutSequence[i] !== correctOrder[i]) {
+            isCorrect = false;
+            break;
+          }
+        }
+      }
+      
+      // Дополнительная проверка: чёрный провод (индекс 2) не должен быть разрезан
+      if (wireState[2] === true) {
+        isCorrect = false;
+      }
+      
+      if (isCorrect) {
+        feedback.textContent = 'Правильно!';
+        feedback.classList.remove('hidden', 'wrong');
+        feedback.classList.add('correct');
+        solved = true;
+        
+        // Блокируем все провода
+        wires.forEach((wire) => {
+          wire.disabled = true;
+        });
+        
+        setTimeout(() => onSolve(), 800);
+      } else {
+        feedback.textContent = 'Неправильный порядок!';
+        feedback.classList.remove('hidden', 'correct');
+        feedback.classList.add('wrong');
+        
+        // Эффект тряски
+        container.querySelector('.puzzle-inner').classList.add('effect-shake');
+        setTimeout(() => {
+          container.querySelector('.puzzle-inner')?.classList.remove('effect-shake');
+        }, 500);
+        
+        // Сбрасываем загадку
+        resetPuzzle();
+      }
+    };
+    
+    // Обработчик нажатия на провод
+    wires.forEach((wire) => {
+      wire.addEventListener('click', () => {
+        if (solved) return;
+        
+        const idx = parseInt(wire.dataset.index);
+        
+        // Если провод уже разрезан - игнорируем
+        if (wireState[idx]) return;
+        
+        // Перерезаем провод
+        wireState[idx] = true;
+        cutSequence.push(idx);
+        updateWireVisual();
+        
+        // Звук (если есть)
+        eventBus.emit('audio:playSound', { name: 'btn_click' });
+      });
+    });
+    
+    // Проверка по кнопке
+    submitBtn.addEventListener('click', checkSolution);
+    
+    // Инициализация
+    updateWireVisual();
+  }
+}
 
 // === Координатор загадок ===
 
@@ -469,6 +698,7 @@ class PuzzleManager {
       slider: new SliderPuzzle(),
       matching: new MatchingPuzzle(),
       hidden: new HiddenObjectsPuzzle(),
+      generator: new WireCutPuzzle(),
     };
   }
 

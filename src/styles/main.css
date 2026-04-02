@@ -575,6 +575,7 @@ a, [role="button"] {
   position: absolute;
   bottom: 20px;
   right: 20px;
+  z-index: 99;
   display: flex;
   gap: 10px;
 }
@@ -805,11 +806,11 @@ a, [role="button"] {
   position: absolute;
   top: 0;
   right: 0;
-  width: 340px;
+  width: 640px;
   height: 100%;
   background: var(--bg-modal);
   border-left: 1px solid var(--border);
-  z-index: 40;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   animation: panel-slide-in 0.25s ease-out;
@@ -902,8 +903,8 @@ a, [role="button"] {
 }
 
 .item-icon {
-  width: 48px;
-  height: 48px;
+  width: 128px;
+  height: 128px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -914,16 +915,17 @@ a, [role="button"] {
 
 .item-name {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--accent);
   margin-bottom: 4px;
 }
 
 .item-desc {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-dim);
   font-weight: 300;
   line-height: 1.6;
+  white-space: pre-wrap;
 }
 
 .inventory-empty {
@@ -1833,4 +1835,22 @@ a, [role="button"] {
 @keyframes spiral-open {
   from { clip-path: circle(0% at 50% 50%); }
   to   { clip-path: circle(150% at 50% 50%); }
+}
+
+.puzzle-feedback.correct {
+  color: #4caf50;
+}
+
+.puzzle-feedback.wrong {
+  color: #f44336;
+}
+
+.effect-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }

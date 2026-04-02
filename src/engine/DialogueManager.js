@@ -281,6 +281,11 @@ class DialogueManager {
   /** Показать финальный выбор (кнопки «Проснуться» / «Остаться») */
   _showFinalChoice() {
     this.hide();
+    // Дополнительно скрываем затемнение, если оно есть
+    const darkOverlay = document.querySelector('.final-choice-darken, .dark-overlay, #dark-overlay');
+    if (darkOverlay) {
+      darkOverlay.classList.add('hidden');
+    }
     eventBus.emit('finalChoice:show');
   }
 

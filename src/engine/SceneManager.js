@@ -61,6 +61,12 @@ class SceneManager {
       console.error(`[SceneManager] Комната "${roomId}" не найдена`);
       return;
     }
+    
+    if(roomId == "ending_room"){
+      const container = document.getElementById('choices-container');
+      container.classList.remove("final-choice-container");
+      container.classList.add("hidden");
+    }
 
     // Обновляем состояние
     gameState.currentRoom = roomId;
