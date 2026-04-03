@@ -147,7 +147,7 @@ class SceneManager {
       newImg.remove();
     }, 600);
 
-                if(src  === "/assets/backgrounds/clock.gif"){
+                if(src  === "/its-just-a-dream/assets/backgrounds/clock.gif"){
                 const mask = document.getElementById('mask');
                 mask.classList.remove('hidden');
                 mask.classList.add('visible');
