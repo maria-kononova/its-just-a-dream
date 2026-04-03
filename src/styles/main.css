@@ -487,7 +487,7 @@ a, [role="button"] {
   position: absolute;
   left: 0px;
   bottom: 0px;
-  z-index: 36;
+  z-index: 1;
   width: auto;
   height: auto;
   pointer-events: none;
@@ -501,7 +501,7 @@ a, [role="button"] {
 .character-sprite {
   position: absolute;
   bottom: 0;
-  width: 300px;
+  width: 500px;
   height: 80%;
   background-size: contain;
   background-repeat: no-repeat;
@@ -510,7 +510,7 @@ a, [role="button"] {
 }
 
 /* Позиции */
-.pos-left   { left: 5%; }
+.pos-left   { left: 3%; }
 .pos-center { left: 50%; transform: translateX(-50%); }
 .pos-right  { right: 5%; }
 
@@ -1950,26 +1950,150 @@ a, [role="button"] {
 }
 
 /* Глитч-разрыв — экран разбивается на полосы (БОЛЕЕ НЕ РЕКОМЕНДУЕТСЯ) */
+/* ============================================================
+   ГЛИТЧ-ПЕРЕХОД — РАЗНОЦВЕТНЫЙ (красный + зелёный/синий)
+   ============================================================ */
+
+/* Основной контейнер глитч-перехода */
 .transition-glitch {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 1000;
   pointer-events: none;
   overflow: hidden;
+  background: #000;
 }
 
+/* Полосы глитч-перехода — каждая полоса имеет свой цвет */
 .transition-glitch-strip {
   position: absolute;
   left: 0;
   right: 0;
-  background: #000;
-  animation: glitch-strip-in 0.4s steps(2) forwards;
+  mix-blend-mode: screen;
+  animation: glitch-strip-slide 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
 }
 
-@keyframes glitch-strip-in {
-  0%   { transform: translateX(-100%); }
-  50%  { transform: translateX(50%); }
-  100% { transform: translateX(0); opacity: 1; }
+/* Чётные полосы — красный оттенок */
+.transition-glitch-strip:nth-child(even) {
+  background: linear-gradient(90deg, 
+    #ff0000 0%, 
+    #ff3333 25%, 
+    #ff0000 50%, 
+    #cc0000 75%, 
+    #ff0000 100%);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* Нечётные полосы — зелёно-голубой оттенок */
+.transition-glitch-strip:nth-child(odd) {
+  background: linear-gradient(90deg, 
+    #00ff00 0%, 
+    #33ff33 25%, 
+    #00ffcc 50%, 
+    #00cc66 75%, 
+    #00ff00 100%);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Альтернативная версия — красный + синий (более классический глитч) */
+.transition-glitch-strip.red-blue:nth-child(even) {
+  background: linear-gradient(90deg, #ff0000, #ff4444, #ff0000, #cc0000, #ff0000);
+}
+
+.transition-glitch-strip.red-blue:nth-child(odd) {
+  background: linear-gradient(90deg, #0044ff, #2266ff, #00aaff, #0088ff, #0044ff);
+  box-shadow: 0 0 10px rgba(0, 100, 255, 0.5);
+}
+
+/* Анимация движения полос */
+@keyframes glitch-strip-slide {
+  0% {
+    transform: translateX(-100%) skewX(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0%) skewX(var(--glitch-skew, 0deg));
+    opacity: 1;
+  }
+}
+
+/* Дополнительные глитч-эффекты для полос */
+.transition-glitch-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.1) 2px,
+    rgba(255, 255, 255, 0.1) 4px
+  );
+  pointer-events: none;
+}
+
+/* Эффект сдвига для разных полос */
+.transition-glitch-strip:nth-child(1) { --glitch-skew: 2deg; animation-delay: 0s; }
+.transition-glitch-strip:nth-child(2) { --glitch-skew: -3deg; animation-delay: 0.03s; }
+.transition-glitch-strip:nth-child(3) { --glitch-skew: 1deg; animation-delay: 0.06s; }
+.transition-glitch-strip:nth-child(4) { --glitch-skew: -2deg; animation-delay: 0.09s; }
+.transition-glitch-strip:nth-child(5) { --glitch-skew: 4deg; animation-delay: 0.12s; }
+.transition-glitch-strip:nth-child(6) { --glitch-skew: -1deg; animation-delay: 0.15s; }
+.transition-glitch-strip:nth-child(7) { --glitch-skew: 3deg; animation-delay: 0.18s; }
+.transition-glitch-strip:nth-child(8) { --glitch-skew: -4deg; animation-delay: 0.21s; }
+
+/* Вариант с RGB-разделением (ещё более насыщенный) */
+.transition-glitch-rgb {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.transition-glitch-rgb .rgb-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  animation: rgb-shift 0.4s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+.transition-glitch-rgb .rgb-strip:nth-child(3n+1) {
+  background: #ff0000;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+}
+
+.transition-glitch-rgb .rgb-strip:nth-child(3n+2) {
+  background: #00ff00;
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+}
+
+.transition-glitch-rgb .rgb-strip:nth-child(3n+3) {
+  background: #0044ff;
+  box-shadow: 0 0 15px rgba(0, 68, 255, 0.8);
+}
+
+@keyframes rgb-shift {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Спираль — чёрный круг сходится к центру, затем расходится (БОЛЕЕ НЕ РЕКОМЕНДУЕТСЯ) */

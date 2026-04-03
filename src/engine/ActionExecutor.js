@@ -89,8 +89,10 @@ class ActionExecutor {
 
       // --- Фон ---
       case 'changeBackground':
-        eventBus.emit('scene:changeBackground', { src: action.src });
-        break;
+        {
+          eventBus.emit('scene:changeBackground', { src: action.src });
+          break;
+        }
 
       // --- Инвентарь и флаги ---
       case 'addItem':
@@ -145,6 +147,9 @@ class ActionExecutor {
       // --- Видео ---
       case 'playVideo':
         await this._awaitEvent('video:ended', () => {
+          const mask = document.getElementById('mask');
+          mask.classList.remove('hidden');
+          mask.classList.add('visible');
           eventBus.emit('video:play', { src: action.src });
         });
         break;

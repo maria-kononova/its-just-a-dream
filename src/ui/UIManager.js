@@ -310,7 +310,7 @@ class UIManager {
     eventBus.emit('audio:playSound', { name: 'btn_hover' });
   }
 
-  /** Показать титры */
+/** Показать титры */
   _showCredits() {
     const gameScreen = document.getElementById('screen-game');
     const credits = document.createElement('div');
@@ -328,7 +328,22 @@ class UIManager {
       </div>
     `;
 
+    // Проигрываем песенку
+    const audio = new Audio('/assets/sounds/gena.mp3');
+    audio.loop = false; // Чтобы не зацикливалась
+    audio.volume = 0.3; // Громкость 70%
+    audio.play().catch(e => console.log('Ошибка воспроизведения:', e));
+
+    // Сохраняем ссылку на audio, чтобы можно было остановить при закрытии (опционально)
+    credits.audioElement = audio;
+
     credits.querySelector('.btn-credits-close').addEventListener('click', () => {
+      // Останавливаем музыку при закрытии титров
+      if (audio && !audio.paused) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      
       const imageUrl = '/assets/items/heart.png';
       const link = document.createElement('a');
       link.href = imageUrl;

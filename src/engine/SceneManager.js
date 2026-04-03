@@ -146,6 +146,16 @@ class SceneManager {
       this._bgImg.src = src;
       newImg.remove();
     }, 600);
+
+                if(src  === "/assets/backgrounds/clock.gif"){
+                const mask = document.getElementById('mask');
+                mask.classList.remove('hidden');
+                mask.classList.add('visible');
+          } else {
+                const mask = document.getElementById('mask');
+                mask.classList.remove('visible');
+                mask.classList.add('hidden');
+          }
   }
 
   /**
