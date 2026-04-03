@@ -31,7 +31,7 @@ const START_MUSIC_URL = '/assets/music/background_theme.mp3'; // Укажите 
 async function init() {
   try {
     // 1. Загружаем сценарий
-    await scenario.load('/data/scenario.json');
+    await scenario.load('/its-just-a-dream/data/scenario.json');
     console.log('[Novel] Сценарий загружен');
 
     // 2. Предзагрузка ассетов (изображения)
