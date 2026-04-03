@@ -12,9 +12,9 @@
       "name": "Я",
       "color": "#b4aad2",
       "sprites": {
-        "neutral": "/assets/characters/lina_neutral.png",
-        "scared": "/assets/characters/lina_scared.png",
-        "surprised": "/assets/characters/lina_surprised.png"
+        "neutral": "/its-just-a-dream/assets/characters/lina_neutral.png",
+        "scared": "/its-just-a-dream/assets/characters/lina_scared.png",
+        "surprised": "/its-just-a-dream/assets/characters/lina_surprised.png"
       }
     },
     "note": {
@@ -26,9 +26,9 @@
       "name": "? ? ?",
       "color": "#b4aad2",
       "sprites": {
-        "icon": "/assets/characters/glitch.png",
-        "neutral": "/assets/characters/glitch_neutral.png",
-        "glitched": "/assets/characters/glitch_glitched.png"
+        "icon": "/its-just-a-dream/assets/characters/glitch.png",
+        "neutral": "/its-just-a-dream/assets/characters/glitch_neutral.png",
+        "glitched": "/its-just-a-dream/assets/characters/glitch_glitched.png"
       }
     },
     "narrator": {
@@ -80,7 +80,7 @@
   "rooms": {
     "meeting_room": {
       "id": "meeting_room",
-      "background": "/assets/backgrounds/start.png",
+      "background": "/its-just-a-dream/assets/backgrounds/start.png",
       "music": "ambient_noise",
       "ambientEffects": [
         "flicker",
@@ -100,7 +100,7 @@
             },
             {
               "type": "playVideo",
-              "src": "/assets/videos/ana_sleep.mp4"
+              "src": "/its-just-a-dream/assets/videos/ana_sleep.mp4"
             }
           ],
           "after": [
@@ -166,7 +166,7 @@
             },
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/meeting_room.png"
+              "src": "/its-just-a-dream/assets/backgrounds/meeting_room.png"
             }
           ]
         },
@@ -295,7 +295,7 @@
     },
     "meeting_room2": {
       "id": "meeting_room2",
-      "background": "/assets/backgrounds/meeting_room.png",
+      "background": "/its-just-a-dream/assets/backgrounds/meeting_room.png",
       "music": "ambient_noise",
       "ambientEffects": [
         "flicker",
@@ -363,7 +363,7 @@
     },
     "meeting_room3": {
       "id": "meeting_room3",
-      "background": "/assets/backgrounds/meeting_room.png",
+      "background": "/its-just-a-dream/assets/backgrounds/meeting_room.png",
       "music": "ambient_noise",
       "ambientEffects": [
         "flicker",
@@ -505,7 +505,7 @@
     },
     "generator_room": {
       "id": "generator_room",
-      "background": "/assets/backgrounds/start.png",
+      "background": "/its-just-a-dream/assets/backgrounds/start.png",
       "music": "ambient_generator",
       "ambientEffects": [
         "flicker",
@@ -552,7 +552,7 @@
           "after": [
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/generatorRoom.png"
+              "src": "/its-just-a-dream/assets/backgrounds/generatorRoom.png"
             },
             {
               "type": "showCharacter",
@@ -690,7 +690,7 @@
           "after": [
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/generatorRoom_withDoor.png"
+              "src": "/its-just-a-dream/assets/backgrounds/generatorRoom_withDoor.png"
             }
           ]
         },
@@ -716,7 +716,7 @@
     },
     "corridor_room": {
       "id": "corridor_room",
-      "background": "/assets/backgrounds/start.png",
+      "background": "/its-just-a-dream/assets/backgrounds/start.png",
       "music": "ambient_corridor",
       "ambientEffects": [
         "vignette",
@@ -831,7 +831,7 @@
             },
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/picture.png"
+              "src": "/its-just-a-dream/assets/backgrounds/picture.png"
             }
           ]
         },
@@ -978,7 +978,7 @@
     },
     "mirror_room": {
       "id": "mirror_room",
-      "background": "/assets/backgrounds/mirror_room.png",
+      "background": "/its-just-a-dream/assets/backgrounds/mirror_room.png",
       "music": "ambient_mirror",
       "ambientEffects": [
         "flicker",
@@ -1196,7 +1196,7 @@
     },
     "clock_room": {
       "id": "clock_room",
-      "background": "/assets/backgrounds/start.png",
+      "background": "/its-just-a-dream/assets/backgrounds/start.png",
       "music": "ambient_clock",
       "ambientEffects": [
         "flicker",
@@ -1216,7 +1216,7 @@
           "before": [
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/clock.gif"
+              "src": "/its-just-a-dream/assets/backgrounds/clock.gif"
             },
             {
               "type": "showCharacter",
@@ -1297,7 +1297,7 @@
           "before": [
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/clock_room.png"
+              "src": "/its-just-a-dream/assets/backgrounds/clock_room.png"
             }
           ]
         },
@@ -1343,7 +1343,7 @@
     },
     "final_room": {
       "id": "final_room",
-      "background": "/assets/backgrounds/final_door.png",
+      "background": "/its-just-a-dream/assets/backgrounds/final_door.png",
       "music": "ambient_final",
       "ambientEffects": [
         "flicker",
@@ -1572,7 +1572,7 @@
     },
     "ending_room": {
       "id": "ending_room",
-      "background": "/assets/backgrounds/myroom.png",
+      "background": "/its-just-a-dream/assets/backgrounds/myroom.png",
       "ambientEffects": [
         "chromatic",
         "flicker"
@@ -1612,11 +1612,11 @@
           "after": [
             {
               "type": "playVideo",
-              "src": "/assets/videos/desktop.mp4"
+              "src": "/its-just-a-dream/assets/videos/desktop.mp4"
             },
             {
               "type": "changeBackground",
-              "src": "/assets/backgrounds/discord.png"
+              "src": "/its-just-a-dream/assets/backgrounds/discord.png"
             }
           ]
         },
@@ -1754,57 +1754,57 @@
       "id": "instraction_correct",
       "name": "Инструкция к ИЭ Генератора С67F",
       "description": "1. Если присутствует два красных провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый второй провод. Если дошел до конца — остановись.\r\n\r\n3. После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть зелёный — перережь последний провод. Если зелёного нет — перережь первый провод.\r\n\r\n4. Внимание! Если присутствует чёрный провод, нужно повторно выполнить третий пункт.",
-      "icon": "/assets/items/instraction_correct.png"
+      "icon": "/its-just-a-dream/assets/items/instraction_correct.png"
     },
     "instraction_uncorrect_1": {
       "id": "instraction_uncorrect_1",
       "name": "Инструкция к ИЭ Генератора DGM86",
       "description": "1. Если присутствует два жёлтых провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый первый провод с шагом два. Если дошел до конца — остановись.\r\n\r\n3. После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть красный — перережь последний провод. Если красного нет — перережь первый провод.\r\n\r\n4. Внимание! Если присутствует жёлтый провод, нужно повторно выполнить второй пункт.",
-      "icon": "/assets/items/instraction_uncorrect_1.png"
+      "icon": "/its-just-a-dream/assets/items/instraction_uncorrect_1.png"
     },
     "instraction_uncorrect_2": {
       "id": "instraction_uncorrect_2",
       "name": "Инструкция к ИЭ Генератора А65",
       "description": "1. Если присутствует два синих провода — начни с верха. Если нет — начни с нижнего.\r\n\r\n2. Двигайся от стартовой позиции к противоположному концу. Перерезай каждый второй провод. Если дошел до конца — остановись.\r\n\r\n3.После этого посмотри на оставшиеся неперерезанные провода. Если среди них есть жёлтый — перережь последний провод. Если жёлтого нет — перережь первый провод.\r\n\r\n4. Внимание! Если отсутствует синий провод, нужно повторно выполнить третий пункт.",
-      "icon": "/assets/items/instraction_uncorrect_2.png"
+      "icon": "/its-just-a-dream/assets/items/instraction_uncorrect_2.png"
     },
     "heart": {
       "id": "heart",
       "name": "Её сердце",
       "description": "Отдаёт теплом при касании и ярко светится.",
-      "icon": "/assets/items/heart.png"
+      "icon": "/its-just-a-dream/assets/items/heart.png"
     }
   },
   "audio": {
     "music": {
-      "ambient_noise": "/assets/music/noise.mp3",
-      "ambient_dream": "/assets/music/ambient_dream.mp3",
-      "ending_track": "/assets/music/ending_track.mp",
-      "ambient_clock": "/assets/music/ambient_clock.mp3",
-      "ambient_final": "/assets/music/ambient_final.mp3",
-      "ambient_generator": "/assets/music/ambient_generator.mp3",
-      "ambient_mirror": "/assets/music/ambient_mirror.mp3",
-      "ambient_corridor": "/assets/music/ambient_corridor.mp3"
+      "ambient_noise": "/its-just-a-dream/assets/music/noise.mp3",
+      "ambient_dream": "/its-just-a-dream/assets/music/ambient_dream.mp3",
+      "ending_track": "/its-just-a-dream/assets/music/ending_track.mp",
+      "ambient_clock": "/its-just-a-dream/assets/music/ambient_clock.mp3",
+      "ambient_final": "/its-just-a-dream/assets/music/ambient_final.mp3",
+      "ambient_generator": "/its-just-a-dream/assets/music/ambient_generator.mp3",
+      "ambient_mirror": "/its-just-a-dream/assets/music/ambient_mirror.mp3",
+      "ambient_corridor": "/its-just-a-dream/assets/music/ambient_corridor.mp3"
     },
     "sounds": {
-      "glitch_noise": "/assets/sounds/glitch_noise.mp3",
-      "keyboard_click": "/assets/sounds/keyboard_click.mp3",
-      "steps": "/assets/sounds/steps.mp3",
-      "btn_click": "/assets/sounds/btn_click.mp3",
-      "switch_click": "/assets/sounds/switch_click.mp3",
-      "kuku": "/assets/sounds/kuku.mp3",
-      "discord": "/assets/sounds/discord.mp3",
-      "gena": "/assets/sounds/gena.mp3",
-      "glass_shatter": "/assets/sounds/mirror.mp3",
-      "text_type": "/assets/sounds/text_type.mp3",
-      "puzzle_solved": "/assets/sounds/puzzle_solved.mp3",
-      "btn_hover": "/assets/sounds/btn_hover.mp3",
-      "whisper": "/assets/sounds/whisper.mp3",
-      "glitch_appear": "/assets/sounds/glitch_appear.mp3",
-      "stone_move": "/assets/sounds/stone_move.mp3",
-      "clock_chime": "/assets/sounds/clock_chime.mp3",
-      "silence_ring": "/assets/sounds/silence_ring.mp3",
-      "glitch_type": "/assets/sounds/glitch_type.mp3"
+      "glitch_noise": "/its-just-a-dream/assets/sounds/glitch_noise.mp3",
+      "keyboard_click": "/its-just-a-dream/assets/sounds/keyboard_click.mp3",
+      "steps": "/its-just-a-dream/assets/sounds/steps.mp3",
+      "btn_click": "/its-just-a-dream/assets/sounds/btn_click.mp3",
+      "switch_click": "/its-just-a-dream/assets/sounds/switch_click.mp3",
+      "kuku": "/its-just-a-dream/assets/sounds/kuku.mp3",
+      "discord": "/its-just-a-dream/assets/sounds/discord.mp3",
+      "gena": "/its-just-a-dream/assets/sounds/gena.mp3",
+      "glass_shatter": "/its-just-a-dream/assets/sounds/mirror.mp3",
+      "text_type": "/its-just-a-dream/assets/sounds/text_type.mp3",
+      "puzzle_solved": "/its-just-a-dream/assets/sounds/puzzle_solved.mp3",
+      "btn_hover": "/its-just-a-dream/assets/sounds/btn_hover.mp3",
+      "whisper": "/its-just-a-dream/assets/sounds/whisper.mp3",
+      "glitch_appear": "/its-just-a-dream/assets/sounds/glitch_appear.mp3",
+      "stone_move": "/its-just-a-dream/assets/sounds/stone_move.mp3",
+      "clock_chime": "/its-just-a-dream/assets/sounds/clock_chime.mp3",
+      "silence_ring": "/its-just-a-dream/assets/sounds/silence_ring.mp3",
+      "glitch_type": "/its-just-a-dream/assets/sounds/glitch_type.mp3"
     }
   }
 }
