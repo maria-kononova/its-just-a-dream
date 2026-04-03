@@ -20,6 +20,8 @@ import { effectsManager } from './effects/EffectsManager.js';
 import { puzzleManager } from './puzzles/PuzzleManager.js';
 import { uiManager } from './ui/UIManager.js';
 
+import './main.css'
+
 // URL фоновой музыки для стартового экрана
 const START_MUSIC_URL = '/assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
 
