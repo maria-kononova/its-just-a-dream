@@ -23,7 +23,7 @@ import { uiManager } from './ui/UIManager.js';
 import './styles/main.css'
 
 // URL фоновой музыки для стартового экрана
-const START_MUSIC_URL = '/assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
+const START_MUSIC_URL = '/its-just-a-dream/assets/music/background_theme.mp3'; // Укажите свой путь к аудиофайлу
 
 /**
  * Инициализация приложения.
