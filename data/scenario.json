@@ -3,7 +3,7 @@
   "_doc": "Каждая комната (room) содержит фразы (phrases), кликабельные зоны (hotspots) и загадки (puzzles). Фразы выводятся последовательно. Каждая фраза может запускать события до/после/во время показа.",
   "settings": {
     "title": "It's just a dream",
-    "startRoom": "final_room",
+    "startRoom": "meeting_room",
     "textSpeed": 50,
     "defaultMusic": "ambient_dream"
   },
