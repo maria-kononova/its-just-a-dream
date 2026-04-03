@@ -329,7 +329,7 @@ class UIManager {
     `;
 
     // Проигрываем песенку
-    const audio = new Audio('/assets/sounds/gena.mp3');
+    const audio = new Audio('/its-just-a-dream/assets/sounds/gena.mp3');
     audio.loop = false; // Чтобы не зацикливалась
     audio.volume = 0.3; // Громкость 70%
     audio.play().catch(e => console.log('Ошибка воспроизведения:', e));
@@ -344,7 +344,7 @@ class UIManager {
         audio.currentTime = 0;
       }
       
-      const imageUrl = '/assets/items/heart.png';
+      const imageUrl = '/its-just-a-dream/assets/items/heart.png';
       const link = document.createElement('a');
       link.href = imageUrl;
       link.download = 'heart.png';
